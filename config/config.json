@@ -1,0 +1,41 @@
+{
+  "development": {
+    "username": "NASSIF107\\basma",
+    "database": "Предприятие здорового питания",
+    "host": "NASSIF107",
+    "dialect": "mssql",
+    "dialectOptions": {
+      "driver": "msnodesqlv8",
+      "options": {
+        "trustedConnection": true,
+        "trustServerCertificate": true
+      }
+    }
+  },
+  "test": {
+    "username": "NASSIF107\\basma",
+    "database": "Предприятие здорового питания",
+    "host": "NASSIF107",
+    "dialect": "mssql",
+    "dialectOptions": {
+      "driver": "msnodesqlv8",
+      "options": {
+        "trustedConnection": true,
+        "trustServerCertificate": true
+      }
+    }
+  },
+  "production": {
+    "username": "NASSIF107\\basma",
+    "database": "Предприятие здорового питания",
+    "host": "NASSIF107",
+    "dialect": "mssql",
+    "dialectOptions": {
+      "driver": "msnodesqlv8",
+      "options": {
+        "trustedConnection": true,
+        "trustServerCertificate": true
+      }
+    }
+  }
+}
