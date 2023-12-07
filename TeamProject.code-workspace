@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"name": "TeamProject",
+			"path": "."
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true
+	}
+}

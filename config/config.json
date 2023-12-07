@@ -1,6 +1,5 @@
 {
   "development": {
-    "username": "NASSIF107\\basma",
     "database": "Предприятие здорового питания",
     "host": "NASSIF107",
     "dialect": "mssql",
@@ -13,7 +12,6 @@
     }
   },
   "test": {
-    "username": "NASSIF107\\basma",
     "database": "Предприятие здорового питания",
     "host": "NASSIF107",
     "dialect": "mssql",
@@ -26,7 +24,6 @@
     }
   },
   "production": {
-    "username": "NASSIF107\\basma",
     "database": "Предприятие здорового питания",
     "host": "NASSIF107",
     "dialect": "mssql",
