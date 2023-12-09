@@ -1,12 +1,14 @@
-
+body{
+    background-image: url(7.png);
+}
 h2{
     text-align: center;
     font-size: 50px;
 }
-#username{
+#login{
     width: 456px;
     height: 86px;
-    flex-shrink: 0;
+    flex-shrink: 0; 
     border-radius: 20px;
     border: 7px solid #FBA806;
     margin-bottom: 50px;
@@ -22,6 +24,55 @@ h2{
     border: 7px solid #FBA806;
     margin-bottom: 40px;
     font-size: 45px;
+}
+#username{
+    width: 456px;
+    height: 86px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    border: 7px solid #FBA806;
+    margin-bottom: 40px;
+    font-size: 45px;
+}
+#surname{
+    width: 456px;
+    height: 86px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    border: 7px solid #FBA806;
+    margin-bottom: 40px;
+    font-size: 45px;
+}
+#email{
+    width: 456px;
+    height: 86px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    border: 7px solid #FBA806;
+    margin-bottom: 40px;
+    font-size: 45px;
+}
+#registration{
+    width: 500px;
+height: 64px;
+flex-shrink: 0;
+    text-transform: uppercase;
+    font-size: 40px;
+    color:#FBA806;
+    background-color: transparent;
+    padding: calc(var(--index) * 1) calc(var(--index) * 2);
+    border: #FBA806 3px solid;
+    text-shadow: 0 0 0.5em #FBA806;
+    box-shadow: 0 0 0.5em #FBA806;
+    margin-top:calc(var(--index) * 4);
+    margin-left:calc(var(--index) * 8);
+    border-radius:0 10em 0 10em;
+    outline: none;
+    transition: background-color var(--transition), text-shadow 300ms;
+    margin-bottom: 40px;
+}
+#autorization{
+    font-size: 40px;
 }
 #isremember{
     width: 21px;
@@ -50,7 +101,7 @@ flex-shrink: 0;
     transition: background-color var(--transition), text-shadow 300ms;
     margin-bottom: 40px;
 }
-a:hover{
+#a1:hover{
     font-size: 24px;
 }
 div{
