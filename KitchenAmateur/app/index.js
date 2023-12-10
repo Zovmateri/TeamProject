@@ -9,6 +9,9 @@ export default function App() {
         <Pressable onPress={() => router.push('./views/Register')}>
             <Text>Go to Register</Text>
         </Pressable>
+        <Pressable onPress={() => router.push('./views/Login')}>
+            <Text>Go to Login</Text>
+        </Pressable>
         </View>
     )
 }

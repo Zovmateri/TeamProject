@@ -1,5 +1,7 @@
 import {StyleSheet, View, Text, TextInput, Button, Image, TouchableOpacity, ImageBackground} from 'react-native';
 import styled from 'styled-components';
+import {Checkbox} from 'expo-checkbox';
+
 
 const Container = styled.View`
   background-color: #fff;
@@ -11,6 +13,7 @@ const Heading = styled.Text`
   text-align: center;
   font-size: 50px;
   margin-bottom: 20px;
+
 `;
 
 const Form = styled.View`
@@ -28,6 +31,7 @@ const Input = styled.TextInput`
   font-size: 20px;
   padding-left: 15px;
 `;
+
 const Buttons = styled(TouchableOpacity)`
   width: 190px;
   height: 38px;
@@ -62,35 +66,21 @@ const AuthorizationText = styled.Text`
 const Links = styled.Text`
   color: #007bff;
 `;
-
-export const UserRegister = ({login,setLogin,currentName,setCurrentName,surname,setSurname,email,setEmail,password,setPassword,registerUser}) => {
+const styles = StyleSheet.create({
+  checkbox: {
+    margin: 8,
+  }
+})
+export const UserAuth = ({login,setLogin,password,setPassword,authUser,isChecked,setChecked}) => {
     return (
     <Container>
-      <ImageBackground source={require('../assets/pics/7.png')}>
-      <Heading>Регистрация</Heading>
+      <ImageBackground source={require('../assets/pics/7.png')} resizeMode=''>
+      <Heading>Авторизация</Heading>
       <Form>
         <Input
           placeholder="Логин"
           value={login}
           onChangeText={setLogin}
-          required
-        />
-        <Input
-          placeholder="Имя"
-          value={currentName}
-          onChangeText={setCurrentName}
-          required
-        />
-        <Input
-          placeholder="Фамилия"
-          value={surname}
-          onChangeText={setSurname}
-          required
-        />
-        <Input
-          placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
           required
         />
         <Input
@@ -101,13 +91,19 @@ export const UserRegister = ({login,setLogin,currentName,setCurrentName,surname,
           required
           last
         />
-        <Buttons onPress={registerUser}>
-          <ButtonText>Зарегистрироваться</ButtonText>
+        <Checkbox
+          style={styles.checkbox}
+          value={isChecked}
+          onValueChange={setChecked}
+          color={isChecked ? '#4630EB' : undefined}
+        />
+        <Buttons onPress={authUser}>
+          <ButtonText>Войти</ButtonText>
         </Buttons>
         <AuthorizationText>
-          <Text>Авторизоваться </Text>
-          <Links onPress={() => console.log('Navigate to authorization')}>
-            www.autorization.ru
+          <Text>До сих пор нет аккаунта? Зарегистрируйся здесь</Text>
+          <Links onPress={() => console.log('Navigate to registration')}>
+            www.registration.ru
           </Links>
         </AuthorizationText>
       </Form>
