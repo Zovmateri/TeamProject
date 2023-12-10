@@ -71,6 +71,10 @@ flex-shrink: 0;
     transition: background-color var(--transition), text-shadow 300ms;
     margin-bottom: 40px;
 }
+#button{
+    width: 3%;
+    height: 10%;
+}
 #autorization{
     font-size: 40px;
 }

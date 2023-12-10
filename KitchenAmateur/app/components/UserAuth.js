@@ -1,5 +1,6 @@
 import {StyleSheet, View, Text, TextInput, Button, Image, TouchableOpacity, ImageBackground} from 'react-native';
 import styled from 'styled-components';
+import {Checkbox} from 'expo-checkbox';
 
 
 const Container = styled.View`
