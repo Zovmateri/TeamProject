@@ -1,33 +1,20 @@
-import axios from 'axios';
-import React from 'react';
-import {StatusBar, View, Alert, Image, Text } from 'react-native';
-import { Post } from './components/Post';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View } from 'react-native';
 
 export default function App() {
-  const [items, setItems] = React.useState([]);
-
-  React.useEffect(() => {
-    axios
-      .get('https://6570dde709586eff66420ddb.mockapi.io/articles')
-      .then(({data}) => {
-        setItems(data);
-      })
-      .catch((err) => {
-        console.log(err);
-        Alert.alert('Ошибка', 'Не удалось получить статии!')
-      })
-  }, []);
-
   return (
-    <View>
-      {items.map((obj) => (
-        <Post 
-          title={obj.title}
-          imageUrl={obj.imageUrl} 
-          createdAt={obj.createdAt} 
-        />
-      ))}
-      <StatusBar theme='auto' />
+    <View style={styles.container}>
+      <Text>Open up App.tsx to start working on your app!</Text>
+      <StatusBar style="auto" />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
