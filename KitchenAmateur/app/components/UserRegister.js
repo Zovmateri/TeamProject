@@ -11,7 +11,6 @@ const Heading = styled.Text`
   text-align: center;
   font-size: 50px;
   margin-bottom: 20px;
-
 `;
 
 const Form = styled.View`
@@ -29,7 +28,6 @@ const Input = styled.TextInput`
   font-size: 20px;
   padding-left: 15px;
 `;
-
 const Buttons = styled(TouchableOpacity)`
   width: 190px;
   height: 38px;

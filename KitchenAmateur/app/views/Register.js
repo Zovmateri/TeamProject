@@ -20,7 +20,9 @@ export default function App() {
   const [id,setID] = React.useState(undefined);
 
   const registerUser = () => {
-    hashedPassword = bcrypt.hash(10,password);
+    if (password != null) {
+      hashedPassword = bcrypt.hash(10,password);
+    }
     db.transaction(tx => {
       tx.executeSql(
         'insert into пользователь (имя,[trial_фамилия_3],[режим веган],[trial_статус_5]) values (?,?,0,0);',[currentName,surname],

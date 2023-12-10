@@ -66,8 +66,12 @@ const AuthorizationText = styled.Text`
 const Links = styled.Text`
   color: #007bff;
 `;
-
-export const UserAuth = ({login,setLogin,currentName,setCurrentName,surname,setSurname,email,setEmail,password,setPassword,registerUser}) => {
+const styles = StyleSheet.create({
+  checkbox: {
+    margin: 8,
+  }
+})
+export const UserAuth = ({login,setLogin,password,setPassword,authUser,isChecked,setChecked}) => {
     return (
     <Container>
       <ImageBackground source={require('../assets/pics/7.png')} resizeMode=''>
@@ -93,7 +97,7 @@ export const UserAuth = ({login,setLogin,currentName,setCurrentName,surname,setS
           onValueChange={setChecked}
           color={isChecked ? '#4630EB' : undefined}
         />
-        <Buttons onPress={authorizationUser}>
+        <Buttons onPress={authUser}>
           <ButtonText>Войти</ButtonText>
         </Buttons>
         <AuthorizationText>

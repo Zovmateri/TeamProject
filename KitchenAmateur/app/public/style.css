@@ -54,8 +54,8 @@ h2{
 }
 #registration{
     width: 500px;
-height: 64px;
-flex-shrink: 0;
+    height: 64px;
+    flex-shrink: 0;
     text-transform: uppercase;
     font-size: 40px;
     color:#FBA806;

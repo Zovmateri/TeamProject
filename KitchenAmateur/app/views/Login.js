@@ -1,61 +1,37 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import {StyleSheet, View, Text, TextInput, Button} from 'react-native';
+import {StyleSheet, View, Text, TextInput, Button, Alert} from 'react-native';
 import * as SQLITE from 'expo-sqlite'
-import { Link } from 'expo-router';
+import { router } from 'expo-router';
 import bcrypt from 'bcrypt-react-native';
+import { UserAuth } from '../components/UserAuth';
 
 export default function App() {
   const db = SQLITE.openDatabase("KitchenAmateur.sqlite")
-  const [currentName, setCurrentName] = React.useState(undefined)
-  const [surname,setSurname] = React.useState(undefined);
   const [login,setLogin] = React.useState(undefined);
   const [password,setPassword] = React.useState(undefined);
-  const [email,setEmail] = React.useState(undefined);
-  const hashedPassword = undefined;
-  const [id,setID] = React.useState(undefined);
 
-//   React.useEffect(() => {
-//     try {
-//       db.transaction(
-//         (tx) => {
-//           tx.executeSql(
-//             'select * from пользователь',
-//             null,
-//             (txObj, resultSet) => {
-//               setNames(resultSet.rows._array);
-//               console.log('Query Result:', resultSet.rows._array);
-//             },
-//             (txObj, error) => {
-//               console.log('Query Error:', error);
-//             }
-//           );
-//         },
-//         (error) => {
-//           console.log('Transaction Error:', error);
-//         }
-//       );
-//     } catch (error) {
-//       console.log('Database Connection Error:', error);
-//     }
-//   }, []);
-
-  const registerUser = () => {
-    hashedPassword = bcrypt.hash(10,password);
+  const loginUser = () => {
     db.transaction(tx => {
       tx.executeSql(
-        'insert into пользователь (имя,[trial_фамилия_3],[режим веган],[trial_статус_5]) values (?,?,0,0);',[currentName,surname],
+        'select логин from [личные данные] where логин = ?;',[login],
         (txObj,resultSet) => {
-          setID(resultSet.insertId),
-          console.log('id found:',id)
-        },
-        (txObj,error) => console.log(error)
-      )
-      tx.executeSql(
-        'insert into [личные данные] ([trial_id пользователя_3],[логин],[электронная почта],[тип владельца данных],[хэш пароля]) values (?,?,?,?,0,?)',
-        [id,login,email,hashedPassword],
-        (txObj,resultSet) => {
-
+          const hashedPassword = resultSet.rows.item[0]?.['хэш пароля'];
+          if (hashedPassword) {
+            const isPasswordValid = bcrypt.compareSync(password,hashedPassword);
+            if (isPasswordValid) {
+              return (
+                router.push('../index.js')
+              )
+            } else {
+              console.log("Incorrect password")
+              return (
+                Alert.alert('Ошибка','Не правильный пароль!!')
+              )
+            }
+          } else {
+            console.log('User not found')
+          }
         },
         (txObj,error) => console.log(error)
       )
@@ -63,34 +39,9 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <TextInput value={login} placeholder='Логин' onChangeText={setLogin} />
-      <TextInput value={currentName} placeholder='Имя' onChangeText={setCurrentName} />
-      <TextInput value={surname} placeholder='Фамилия' onChangeText={setSurname} />
-      <TextInput value={password} placeholder='Пароль' onChangeText={setPassword} />
-      <TextInput value={email} placeholder='Электронная почта' onChangeText={setEmail} />
-      
-      <Link href='./views/Home.js'>
-        <Button title='Зарегистрироваться' onPress={registerUser} />
-      </Link>
-      
-      <StatusBar style='auto' />
+    <View>
+        <UserAuth login={login} setLogin={setLogin} password={password} setPassword={setPassword} authUser={loginUser}/>
+        <StatusBar theme='auto' />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'stretch',
-    justifyContent: 'space-between',
-    margin: 8,
-  },
-});
