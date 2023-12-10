@@ -5,7 +5,7 @@ import * as SQLITE from 'expo-sqlite'
 import { Link } from 'expo-router';
 import bcrypt from 'bcrypt-react-native';
 import styled from 'styled-components';
-import { UserAuth } from '../components/UserAuth';
+import { UserRegister } from '../components/UserRegister';
 
 
 
@@ -20,7 +20,9 @@ export default function App() {
   const [id,setID] = React.useState(undefined);
 
   const registerUser = () => {
-    hashedPassword = bcrypt.hash(10,password);
+    if (password != null) {
+      hashedPassword = bcrypt.hash(10,password);
+    }
     db.transaction(tx => {
       tx.executeSql(
         'insert into пользователь (имя,[trial_фамилия_3],[режим веган],[trial_статус_5]) values (?,?,0,0);',[currentName,surname],
@@ -42,7 +44,7 @@ export default function App() {
   }
   return (
     <View>
-        <UserAuth login={login} setLogin={setLogin} currentName={currentName} setCurrentName={setCurrentName} surname={surname} setSurname={setSurname} email={email} setEmail={setEmail} password={password} setPassword={setPassword}/>
+        <UserRegister login={login} setLogin={setLogin} currentName={currentName} setCurrentName={setCurrentName} surname={surname} setSurname={setSurname} email={email} setEmail={setEmail} password={password} setPassword={setPassword}/>
         <StatusBar theme='auto' />
     </View>
   );

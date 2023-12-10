@@ -1,45 +1,41 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import {StyleSheet, View, Text, TextInput, Button} from 'react-native';
+import {StyleSheet, View, Text, TextInput, Button, Alert} from 'react-native';
 import * as SQLITE from 'expo-sqlite'
-import { Link } from 'expo-router';
+import { router } from 'expo-router';
 import bcrypt from 'bcrypt-react-native';
 
 export default function App() {
   const db = SQLITE.openDatabase("KitchenAmateur.sqlite")
-  const [currentName, setCurrentName] = React.useState(undefined)
-  const [surname,setSurname] = React.useState(undefined);
   const [login,setLogin] = React.useState(undefined);
   const [password,setPassword] = React.useState(undefined);
-  const [email,setEmail] = React.useState(undefined);
   const hashedPassword = undefined;
   const [id,setID] = React.useState(undefined);
 
-//   React.useEffect(() => {
-//     try {
-//       db.transaction(
-//         (tx) => {
-//           tx.executeSql(
-//             'select * from пользователь',
-//             null,
-//             (txObj, resultSet) => {
-//               setNames(resultSet.rows._array);
-//               console.log('Query Result:', resultSet.rows._array);
-//             },
-//             (txObj, error) => {
-//               console.log('Query Error:', error);
-//             }
-//           );
-//         },
-//         (error) => {
-//           console.log('Transaction Error:', error);
-//         }
-//       );
-//     } catch (error) {
-//       console.log('Database Connection Error:', error);
-//     }
-//   }, []);
-
+  const loginUser = () => {
+    db.transaction(tx => {
+      tx.executeSql(
+        'select логин from [личные данные] where логин = ?;',[login],
+        (txObj,resultSet) => {
+          const hashedPassword = resultSet.rows.item[0]?.['хэш пароля'];
+          if (hashedPassword) {
+            const isPasswordValid = bcrypt.compareSync(password,hashedPassword);
+            if (isPasswordValid) {
+              return (
+                router.push('../index.js')
+              )
+            } else {
+              console.log("Incorrect password")
+              return (
+                Alert.alert('Ошибка','Не правильный пароль!!')
+              )
+            }
+          }
+        },
+        (txObj,error) => console.log(error)
+      )
+    })
+  }
   const registerUser = () => {
     hashedPassword = bcrypt.hash(10,password);
     db.transaction(tx => {
@@ -63,18 +59,9 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <TextInput value={login} placeholder='Логин' onChangeText={setLogin} />
-      <TextInput value={currentName} placeholder='Имя' onChangeText={setCurrentName} />
-      <TextInput value={surname} placeholder='Фамилия' onChangeText={setSurname} />
-      <TextInput value={password} placeholder='Пароль' onChangeText={setPassword} />
-      <TextInput value={email} placeholder='Электронная почта' onChangeText={setEmail} />
-      
-      <Link href='./views/Home.js'>
-        <Button title='Зарегистрироваться' onPress={registerUser} />
-      </Link>
-      
-      <StatusBar style='auto' />
+    <View>
+        <UserRegister login={login} setLogin={setLogin} currentName={currentName} setCurrentName={setCurrentName} surname={surname} setSurname={setSurname} email={email} setEmail={setEmail} password={password} setPassword={setPassword}/>
+        <StatusBar theme='auto' />
     </View>
   );
 }
