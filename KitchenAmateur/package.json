@@ -19,7 +19,7 @@
     "expo-constants": "~14.4.2",
     "expo-file-system": "~15.4.5",
     "expo-linking": "~5.0.2",
-    "expo-router": "^2.0.0",
+    "expo-router": "^2.0.14",
     "expo-sqlite": "~11.3.3",
     "expo-status-bar": "~1.6.0",
     "metro-config": "^0.80.1",
