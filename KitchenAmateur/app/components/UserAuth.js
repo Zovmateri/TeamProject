@@ -23,10 +23,10 @@ const Form = styled.View`
 
 const Input = styled.TextInput`
   width: 250px;
-  height: 30px;
+  height: 50px;
   border-radius: 10px;
   border-width: 3px;
-  border-color: #fba806;
+  border-color: black;
   margin-bottom: 40px;
   font-size: 20px;
   padding-left: 15px;
@@ -41,7 +41,7 @@ const Buttons = styled(TouchableOpacity)`
   background-color: transparent;
   padding: 8px;
   border-width: 3px;
-  border-color: #fba806;
+  border-color: #00bb03;
   text-shadow: 0 0 0.5em #fba806;
   box-shadow: 0 0 0.5em #fba806;
   margin-top: 32px;
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
 export const UserAuth = ({login,setLogin,password,setPassword,authUser,isChecked,setChecked}) => {
     return (
     <Container>
-      <ImageBackground source={require('../assets/pics/7.png')} resizeMode=''>
+      <ImageBackground source={require('../assets/pics/7.png')}>
       <Heading>Авторизация</Heading>
       <Form>
         <Input
@@ -91,17 +91,20 @@ export const UserAuth = ({login,setLogin,password,setPassword,authUser,isChecked
           required
           last
         />
+        
         <Checkbox
           style={styles.checkbox}
           value={isChecked}
           onValueChange={setChecked}
           color={isChecked ? '#4630EB' : undefined}
-        />
+          
+        ></Checkbox>
+        
         <Buttons onPress={authUser}>
           <ButtonText>Войти</ButtonText>
         </Buttons>
         <AuthorizationText>
-          <Text>До сих пор нет аккаунта? Зарегистрируйся здесь</Text>
+          <Text>До сих пор нет аккаунта? Зарегистрируйся здесь </Text>
           <Links onPress={() => console.log('Navigate to registration')}>
             www.registration.ru
           </Links>

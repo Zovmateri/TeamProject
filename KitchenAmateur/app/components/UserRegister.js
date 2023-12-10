@@ -20,13 +20,14 @@ const Form = styled.View`
 
 const Input = styled.TextInput`
   width: 250px;
-  height: 30px;
+  height: 50px;
   border-radius: 10px;
   border-width: 3px;
-  border-color: #fba806;
+  border-color: grey;
   margin-bottom: 40px;
   font-size: 20px;
   padding-left: 15px;
+  
 `;
 const Buttons = styled(TouchableOpacity)`
   width: 190px;
@@ -37,7 +38,7 @@ const Buttons = styled(TouchableOpacity)`
   background-color: transparent;
   padding: 8px;
   border-width: 3px;
-  border-color: #fba806;
+  border-color: #00bb03;
   text-shadow: 0 0 0.5em #fba806;
   box-shadow: 0 0 0.5em #fba806;
   margin-top: 32px;
