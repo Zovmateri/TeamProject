@@ -1,10 +1,8 @@
-import {StyleSheet, View, Text, TextInput, Button, Image, TouchableOpacity, ImageBackground} from 'react-native';
+import {StyleSheet, View, Text, TextInput, Button, Image, TouchableOpacity, ImageBackground, useWindowDimensions} from 'react-native';
 import styled from 'styled-components';
 
 const Container = styled.View`
-  background-color: #fff;
   justify-content: center;
-  height: 95%;
 `;
 
 const Heading = styled.Text`
