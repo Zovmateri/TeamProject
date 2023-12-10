@@ -1,7 +1,6 @@
 import {StyleSheet, View, Text, TextInput, Button, Image, TouchableOpacity, ImageBackground} from 'react-native';
 import styled from 'styled-components';
 
-
 const Container = styled.View`
   background-color: #fff;
   justify-content: center;
@@ -66,16 +65,34 @@ const Links = styled.Text`
   color: #007bff;
 `;
 
-export const UserAuth = ({login,setLogin,currentName,setCurrentName,surname,setSurname,email,setEmail,password,setPassword,registerUser}) => {
+export const UserRegister = ({login,setLogin,currentName,setCurrentName,surname,setSurname,email,setEmail,password,setPassword,registerUser}) => {
     return (
     <Container>
-      <ImageBackground source={require('../assets/pics/7.png')} resizeMode=''>
-      <Heading>Авторизация</Heading>
+      <ImageBackground source={require('../assets/pics/7.png')}>
+      <Heading>Регистрация</Heading>
       <Form>
         <Input
           placeholder="Логин"
           value={login}
           onChangeText={setLogin}
+          required
+        />
+        <Input
+          placeholder="Имя"
+          value={currentName}
+          onChangeText={setCurrentName}
+          required
+        />
+        <Input
+          placeholder="Фамилия"
+          value={surname}
+          onChangeText={setSurname}
+          required
+        />
+        <Input
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
           required
         />
         <Input
@@ -86,19 +103,13 @@ export const UserAuth = ({login,setLogin,currentName,setCurrentName,surname,setS
           required
           last
         />
-        <Checkbox
-          style={styles.checkbox}
-          value={isChecked}
-          onValueChange={setChecked}
-          color={isChecked ? '#4630EB' : undefined}
-        />
-        <Buttons onPress={authorizationUser}>
-          <ButtonText>Войти</ButtonText>
+        <Buttons onPress={registerUser}>
+          <ButtonText>Зарегистрироваться</ButtonText>
         </Buttons>
         <AuthorizationText>
-          <Text>До сих пор нет аккаунта? Зарегистрируйся здесь</Text>
-          <Links onPress={() => console.log('Navigate to registration')}>
-            www.registration.ru
+          <Text>Авторизоваться </Text>
+          <Links onPress={() => console.log('Navigate to authorization')}>
+            www.autorization.ru
           </Links>
         </AuthorizationText>
       </Form>

@@ -5,7 +5,7 @@ import * as SQLITE from 'expo-sqlite'
 import { Link } from 'expo-router';
 import bcrypt from 'bcrypt-react-native';
 import styled from 'styled-components';
-import { UserAuth } from '../components/UserAuth';
+import { UserRegister } from '../components/UserRegister';
 
 
 
@@ -42,7 +42,7 @@ export default function App() {
   }
   return (
     <View>
-        <UserAuth login={login} setLogin={setLogin} currentName={currentName} setCurrentName={setCurrentName} surname={surname} setSurname={setSurname} email={email} setEmail={setEmail} password={password} setPassword={setPassword}/>
+        <UserRegister login={login} setLogin={setLogin} currentName={currentName} setCurrentName={setCurrentName} surname={surname} setSurname={setSurname} email={email} setEmail={setEmail} password={password} setPassword={setPassword}/>
         <StatusBar theme='auto' />
     </View>
   );
