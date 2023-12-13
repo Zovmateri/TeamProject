@@ -91,7 +91,7 @@ export const UserAuth = ({login,setLogin,password,setPassword,authUser,isChecked
             required
             last
           />
-          <TextInput style={style.input}
+          <TextInput style={style.isremember}
             value={isChecked}
             onValueChange={setChecked}
             color={isChecked ? '#4630EB' : undefined}

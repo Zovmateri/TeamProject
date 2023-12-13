@@ -33,8 +33,6 @@
     margin-top:calc(var(calc(1vw + 1vh)) * 4);
     margin-left:calc(var(calc(1vw + 1vh)) * 8);
     border-radius:0 160px 0 160px;
-    outline: none;
-    transition: background-color var(1.5s cubic-bezier(0.05,0.5,0,1)), text-shadow 300ms;
     margin-bottom: 40px;
 }
 .autorization{
@@ -63,8 +61,6 @@ flex-shrink: 0;
     margin-top:calc(var(calc(1vw + 1vh)) * 4);
     margin-left:calc(var(calc(1vw + 1vh)) * 8);
     border-radius:0 160px 0 160px;
-    outline: none;
-    transition: background-color var(1.5s cubic-bezier(0.05,0.5,0,1)), text-shadow 300ms;
     margin-bottom: 40px;
 }
 .a1:hover{
