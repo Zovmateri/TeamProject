@@ -2,7 +2,7 @@ import {StyleSheet, View, Text, TextInput, Button, Image, TouchableOpacity, Imag
 import styled from 'styled-components';
 import {Checkbox} from 'expo-checkbox';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-
+import style from '../public/style.css';
 
 const Container = styled.View`
   background-color: #fff;
@@ -18,7 +18,7 @@ const Heading = styled.Text`
 `;
 
 const Form = styled.View`
-  width: ${wp('100%')};
+  width: ${hp('50%')};
   align-items: center;
 `;
 
@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
 })
 export const UserAuth = ({login,setLogin,password,setPassword,authUser,isChecked,setChecked}) => {
     return (
+<<<<<<< HEAD
     <Container>
       <ImageBackground source={require('../assets/pics/7.png')}>
       <Heading>Авторизация</Heading>
@@ -112,7 +113,77 @@ export const UserAuth = ({login,setLogin,password,setPassword,authUser,isChecked
         </AuthorizationText>
       </Form>
       </ImageBackground>
+=======
+      <View style={style.body}>
+        <Text style={style.h2}>Авторизация</Text>
+        <View style={style.div}>
+          <TextInput style={style.input}
+            placeholder="Логин"
+            value={login}
+            onChangeText={setLogin}
+            required
+          />
+          <TextInput style={style.input}
+            placeholder="Пароль"
+            secureTextEntry
+            value={password}
+            onChangeText={setPassword}
+            required
+            last
+          />
+          <TextInput style={style.isremember}
+            value={isChecked}
+            onValueChange={setChecked}
+            color={isChecked ? '#4630EB' : undefined}
+          />
+          <Text onPress={authUser} style={style.enter}>
+            <Text>Войти</Text>
+          </Text>
+          <Text>
+            <Text>До сих пор нет аккаунта? Зарегистрируйся здесь</Text>
+            <Text onPress={() => console.log('Navigate to registration')}>
+              www.registration.ru
+            </Text>
+          </Text>
+        </View>
+    </View>
+    // <Container>
+    //   <ImageBackground source={require('../assets/pics/7.png')} resizeMode=''>
+    //   <Heading>Авторизация</Heading>
+    //   <Form>
+    //     <Input
+    //       placeholder="Логин"
+    //       value={login}
+    //       onChangeText={setLogin}
+    //       required
+    //     />
+    //     <Input
+    //       placeholder="Пароль"
+    //       secureTextEntry
+    //       value={password}
+    //       onChangeText={setPassword}
+    //       required
+    //       last
+    //     />
+    //     <Checkbox
+    //       style={styles.checkbox}
+    //       value={isChecked}
+    //       onValueChange={setChecked}
+    //       color={isChecked ? '#4630EB' : undefined}
+    //     />
+    //     <Buttons onPress={authUser}>
+    //       <ButtonText>Войти</ButtonText>
+    //     </Buttons>
+    //     <AuthorizationText>
+    //       <Text>До сих пор нет аккаунта? Зарегистрируйся здесь</Text>
+    //       <Links onPress={() => console.log('Navigate to registration')}>
+    //         www.registration.ru
+    //       </Links>
+    //     </AuthorizationText>
+    //   </Form>
+    //   </ImageBackground>
+>>>>>>> 9f2a19dc039a2f1192acff9e63760d64e6f14766
       
-    </Container>
+    // </Container>
     )
 }
