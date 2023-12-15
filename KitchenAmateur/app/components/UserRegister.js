@@ -1,8 +1,10 @@
 import {StyleSheet, View, Text, TextInput, Button, Image, TouchableOpacity, ImageBackground, useWindowDimensions} from 'react-native';
 import styled from 'styled-components';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const Container = styled.View`
   justify-content: center;
+  height: ${hp('100%')};
 `;
 
 const Heading = styled.Text`
@@ -12,7 +14,7 @@ const Heading = styled.Text`
 `;
 
 const Form = styled.View`
-  width: 100%;
+  width: ${wp('100%')};
   align-items: center;
 `;
 

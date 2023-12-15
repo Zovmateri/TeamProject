@@ -1,3 +1,7 @@
+:root{
+    --index: calc(1vw + 1vh);
+    --transition: 1.5s cubic-bezier(0.05,0.5,0,1);
+}
 body{
     background-image: url(7.png);
 }
@@ -105,9 +109,21 @@ flex-shrink: 0;
     transition: background-color var(--transition), text-shadow 300ms;
     margin-bottom: 40px;
 }
+.imaaa{
+    margin-top: calc(var(--index) * 5);
+    align-items: left;
+    justify-content: left;
+    height: 100px;
+}
 #a1:hover{
     font-size: 24px;
 }
-div{
-    text-align: center;
+
+.recipepage{
+    align-items: left;
+
+}
+.search{
+    width: 1450px;
+    height: 40px;
 }

@@ -18,7 +18,7 @@ const Heading = styled.Text`
 `;
 
 const Form = styled.View`
-  width: ${hp('100%')};
+  width: ${wp('100%')};
   align-items: center;
 `;
 
@@ -27,7 +27,7 @@ const Input = styled.TextInput`
   height: 50px;
   border-radius: 10px;
   border-width: 3px;
-  border-color: black;
+  border-color: grey;
   margin-bottom: 40px;
   font-size: 20px;
   padding-left: 15px;
