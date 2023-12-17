@@ -40,7 +40,7 @@ export default function App({navigation}) {
             console.log('Query Result:', rows); 
   
             if (rows && rows.length > 0) {
-              hashedPassword = rows.item(0)['Хэш пароля'];
+              hashedPassword = rows.item(0)[Object.keys(rows.item(0))[0]];
               console.log('hashedPassword:', hashedPassword);
   
               if (hashedPassword !== null) {

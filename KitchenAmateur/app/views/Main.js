@@ -53,7 +53,7 @@ export default function App() {
   }
   return (
     <View>
-      <Text onPress={getUsersAllergensForSearchBox}>
+      <Text onPress={getUsersAllergensForSearchBox()}>
         <Text>get user allergens</Text>
       </Text>
         <StatusBar theme='auto' />
