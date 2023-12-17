@@ -33,10 +33,11 @@ export default function App({navigation}) {
     const hashPasswordString = "Хэш пароля";
     const buffer = Buffer.from(hashPasswordString, 'utf8');
     const encodedHashPasswordString = buffer.toString('latin1');
-    if (Platform.OS == 'ios') {
+    if (Platform.OS === 'ios') {
       tableName = encodedHashPasswordString;
-    } else if (Platform.OS == 'android') {
+    } else if (Platform.OS === 'android') {
       tableName = hashPasswordString;
+      console.log('мистер вадим',tableName)
     }
     if (database) {
       console.log('database is running');

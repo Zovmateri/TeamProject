@@ -1,5 +1,6 @@
 import {StyleSheet, View, Text, TextInput, Button, Image, TouchableOpacity, ImageBackground, useWindowDimensions} from 'react-native';
 import styled from 'styled-components';
+import style from "../public/style.css";
 
 const Container = styled.View`
   justify-content: center;
