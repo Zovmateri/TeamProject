@@ -3,6 +3,7 @@ import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 
 const HomeScreen = ({ navigation }) => {
+    console.log('Мистер Вадим!!!!!!!')
   return (
     <View>
       <Text>Home Screen</Text>
