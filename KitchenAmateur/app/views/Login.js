@@ -50,7 +50,7 @@ export default function App({navigation}) {
                 if (isPasswordValid) {
                   setLoginState(login);
                   console.log('Welcome user');
-                  navigation.navigate('Main')
+                  return  (navigation.navigate('Main'))
                 } else {
                   console.log('Incorrect password');
                   Alert.alert('Ошибка', 'Не правильный пароль!!');
@@ -66,8 +66,6 @@ export default function App({navigation}) {
         );
       },
       (error) => console.log('Transaction Error:', error));
-    } else {
-      console.log('database not connected!');
     }
   };  
   return (

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import {StyleSheet, View, Text, TextInput, Button, Alert} from 'react-native';
+import {StyleSheet, View, Text, TextInput, Button, Alert, Pressable} from 'react-native';
 import * as bcrypt from 'react-native-bcrypt';
 import { UserAuth } from '../components/UserAuth';
 import {OpenDatabase} from '../dbConfig'
@@ -23,29 +23,29 @@ export default function App() {
     let foundAllergens
     let allergenIndex
     if (database) {
-      const query = `SELECT al.[ID Аллергена] 
-                     FROM [Аллерген пользователя] al 
-                     JOIN [Личные данные] ld ON ld.[ID Пользователя] = al.[ID Пользователя] 
-                     WHERE ld.[Логин] = (?);`;
+      const query = 'SELECT al.[ID Аллергена] FROM [Аллерген пользователя] al JOIN [Личные данные] ld ON ld.[ID Пользователя] = al.[ID Пользователя] WHERE ld.[Логин] = (?);';
       database.transaction((tx) => {
+        console.log('transaction for allergens started')
         tx.executeSql(
+          console.log('query is:',query, '\nlogin is:',login),
           query,[login],
           (txObj, resultSet) => {
-            for (let i=0; i< resultSet.rows.length; i++) {
-              allergenIndex = resultSet.rows.item(i)['ID Аллергена']
-              const index = index = allergens.findIndex((s) => s.Index === allergenIndex);
-              const allergentName = allergens[index].Name;
-              const allergen = allergentName;
-              allergens.push(allergen)
+            let updatedAllergens = []; // Use a temporary array
+            console.log('length:',resultSet.rows.length)
+            for (let i = 0; i < resultSet.rows.length; i++) {
+              const allergenIndex = resultSet.rows.item(i)['ID Аллергена'];
+              const index = allergens.findIndex((s) => s.Index === allergenIndex);
+              const allergenName = allergens[index].Name;
+              const allergen = allergenName;
+              updatedAllergens.push(allergen);
+              console.log(allergen);
             }
-            setAllergens(allergens)
+            setAllergens(updatedAllergens)
           },
           (txObj, error) => console.log('Query Error:', error)
         );
       },
       (error) => console.log('Transaction Error:', error));
-    } else {
-      console.log('database not connected!');
     }
   }
   const pinRecipeesToBoard = () => {
@@ -53,9 +53,9 @@ export default function App() {
   }
   return (
     <View>
-      <Text onPress={getUsersAllergensForSearchBox()}>
+      <Pressable onPress={() => getUsersAllergensForSearchBox()}>
         <Text>get user allergens</Text>
-      </Text>
+      </Pressable>
         <StatusBar theme='auto' />
     </View>
   );
