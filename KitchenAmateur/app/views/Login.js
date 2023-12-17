@@ -12,6 +12,7 @@ export default function App() {
   const [login,setLogin] = React.useState(undefined);
   const [password,setPassword] = React.useState(undefined)
   const [database, setDatabase] = React.useState(null); // Stores the database connection
+  const [Checked, setChecked] = React.useState(false);
 
   React.useEffect(() => {
     OpenDatabase().then((db) => {
@@ -69,7 +70,7 @@ export default function App() {
   };  
   return (
     <View>
-        <UserAuth login={login} setLogin={setLogin} password={password} setPassword={setPassword} authUser={loginUser}/>
+        <UserAuth login={login} setLogin={setLogin} password={password} setPassword={setPassword} authUser={loginUser} Checked={Checked} setChecked={setChecked}/>
         <StatusBar theme='auto' />
     </View>
   );

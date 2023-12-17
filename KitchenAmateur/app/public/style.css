@@ -3,28 +3,29 @@
     --transition: 1.5s cubic-bezier(0.05,0.5,0,1);
 }
 .body{
-    background-image: url(7.png);
+    background-image: url(../assets/pics/7.png);
 }
 .h2{
     align-self: center;
     font-size: 50px;
-    margin: 30px 0px 100px 0px;
+    margin: 80px 0px 80px 0px;
+    font-weight: 200;
 
 }
 .input{
     width: 70%;
-    height: 50px;
-    border-radius: 20px;
-    border: 2px solid #FBA806;
+    height: 14%;
+    border-radius: 30px;
+    border: 3px solid #FBA806;
     margin-bottom: 40px;
-    font-size: 40%;
+    font-size: 30px;
     align-self: center;
-    padding: 5%;
+    padding: 10px 15px 10px 15px;
+    font-weight: 200;
 }
 .registration{
     width: 500px;
     height: 64px;
-    flex-shrink: 0;
     text-transform: uppercase;
     font-size: 40px;
     color:#FBA806;
@@ -36,23 +37,11 @@
     border-radius:0 160px 0 160px;
     margin-bottom: 40px;
 }
-.autorization{
-    font-size: 40px;
-}
-.isremember{
-    width: 21px;
-height: 20px;
-flex-shrink: 0;
-border: 3px solid #000;
-background: #D9D9D9;
-margin-bottom: 20px;
-}
 .enter{
-    width: 294px;
-    height: 64px;
+    width: 50%;
+    height: 14%;
     text-transform: uppercase;
-    text-align: center;
-    font-size: 36%;
+    font-size: 32px;
     color:#00bb03;
     background-color: transparent;
     border: #00bb03 3px solid;
@@ -60,8 +49,41 @@ margin-bottom: 20px;
     box-shadow: 0 0 8px #00bb03;
     border-radius:30px;
     align-self: center;
-    padding-top: 10px;
+    text-align: center;
+    align-items:center;
+    padding: 10px;
+    margin: 0px;
 }
 .a1:hover{
     font-size: 24px;
+}
+.toRegistr{
+    align-self: center;
+    text-align: center;
+    padding-top: 15%;
+}
+.isremember{
+    width: 20px;
+    height: 20px;
+    border: 1px solid #000;
+    margin-bottom: 20px;
+    align-self: center;
+    flex-direction: 'row';
+    box-shadow: 0 0 8px #FBA806;
+}
+.isrememtxt{
+    justify-content: center;
+    text-align: center;
+    margin: 0px 10px 18px 0px;
+    font-size: 16px;
+}
+.container{
+    align-self: center;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}
+.checkboxContainer{
+    flex-direction: row;
+    align-items: center;
 }
