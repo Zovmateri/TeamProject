@@ -1,17 +1,17 @@
 import React, { useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {StyleSheet, View, Text, TextInput, Button, Alert} from 'react-native';
-import { router } from 'expo-router';
 import * as bcrypt from 'react-native-bcrypt';
 import { UserAuth } from '../components/UserAuth';
 import {OpenDatabase} from '../dbConfig'
-import { navigateToIndex, navigateToRegister } from '../routes';
+import { setLoginState } from '../Storage';
 
 
-export default function App() {
+export default function App({navigation}) {
   const [login,setLogin] = React.useState(undefined);
   const [password,setPassword] = React.useState(undefined)
   const [database, setDatabase] = React.useState(null); // Stores the database connection
+
 
   React.useEffect(() => {
     OpenDatabase().then((db) => {
@@ -47,7 +47,9 @@ export default function App() {
                 console.log('isPasswordValid:', isPasswordValid);
   
                 if (isPasswordValid) {
+                  setLoginState(login);
                   console.log('Welcome user');
+                  navigation.navigate('Main')
                 } else {
                   console.log('Incorrect password');
                   Alert.alert('Ошибка', 'Не правильный пароль!!');

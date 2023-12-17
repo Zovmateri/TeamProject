@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@expo/webpack-config": "^19.0.0",
+    "@react-navigation/native": "^6.1.9",
+    "@react-navigation/native-stack": "^6.9.17",
     "axios": "^1.6.2",
     "babel-plugin-react-native-classname-to-style": "^1.2.2",
     "babel-plugin-react-native-platform-specific-extensions": "^1.1.1",
@@ -43,6 +45,7 @@
     "react-native-screens": "~3.22.0",
     "react-native-sqlite-storage": "^6.0.1",
     "react-native-web": "^0.19.9",
+    "react-navigation": "^5.0.0",
     "styled-components": "^6.1.1"
   },
   "devDependencies": {
