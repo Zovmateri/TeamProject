@@ -6,17 +6,20 @@
     background-image: url(7.png);
 }
 .h2{
-    text-align: center;
+    align-self: center;
     font-size: 50px;
+    margin: 30px 0px 100px 0px;
+
 }
 .input{
-    width: 250px;
+    width: 70%;
     height: 50px;
-    flex-shrink: 0; 
     border-radius: 20px;
     border: 2px solid #FBA806;
-    margin-bottom: 50px;
-    font-size: 45px;
+    margin-bottom: 40px;
+    font-size: 40%;
+    align-self: center;
+    padding: 5%;
 }
 .registration{
     width: 500px;
@@ -30,8 +33,6 @@
     border: #FBA806 3px solid;
     text-shadow: 0 0 8px #FBA806;
     box-shadow: 0 0 8px #FBA806;
-    margin-top:calc(var(calc(1vw + 1vh)) * 4);
-    margin-left:calc(var(calc(1vw + 1vh)) * 8);
     border-radius:0 160px 0 160px;
     margin-bottom: 40px;
 }
@@ -48,24 +49,19 @@ margin-bottom: 20px;
 }
 .enter{
     width: 294px;
-height: 64px;
-flex-shrink: 0;
+    height: 64px;
     text-transform: uppercase;
-    font-size: 40px;
+    text-align: center;
+    font-size: 36%;
     color:#00bb03;
     background-color: transparent;
-    padding: 10px 20px;
     border: #00bb03 3px solid;
     text-shadow: 0 0 8px #00bb03;
     box-shadow: 0 0 8px #00bb03;
-    margin-top:calc(var(calc(1vw + 1vh)) * 4);
-    margin-left:calc(var(calc(1vw + 1vh)) * 8);
-    border-radius:0 160px 0 160px;
-    margin-bottom: 40px;
+    border-radius:30px;
+    align-self: center;
+    padding-top: 10000vh;
 }
 .a1:hover{
     font-size: 24px;
-}
-.div{
-    text-align: center;
 }

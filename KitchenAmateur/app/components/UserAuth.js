@@ -1,4 +1,4 @@
-import {StyleSheet, View, Text, TextInput, Button, Image, TouchableOpacity, ImageBackground} from 'react-native';
+import {StyleSheet, View, Text, TextInput, checkboxButton, Image, TouchableOpacity, ImageBackground} from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import style from '../public/style.css';
 
@@ -11,28 +11,28 @@ export const UserAuth = ({login,setLogin,password,setPassword,authUser,isChecked
     return (
       <View style={style.body}>
         <Text style={style.h2}>Авторизация</Text>
-        <View style={style.div}>
+        <View>
           <TextInput style={style.input}
             placeholder="Логин"
             value={login}
-            onChangeText={setLogin}
+            onChangeText={setLogin} //Зачем?
             required
           />
           <TextInput style={style.input}
             placeholder="Пароль"
             secureTextEntry
             value={password}
-            onChangeText={setPassword}
+            onChangeText={setPassword} //Зачем?
             required
             last
           />
           <TextInput style={style.isremember}
             value={isChecked}
-            onValueChange={setChecked}
+            onValueChange={setChecked}    
             color={isChecked ? '#4630EB' : undefined}
           />
           <Text onPress={authUser} style={style.enter}>
-            <Text>Войти</Text>
+            <Text textAslign ="center">Войти</Text>
           </Text>
           <Text>
             <Text>До сих пор нет аккаунта? Зарегистрируйся здесь</Text>
