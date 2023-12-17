@@ -29,11 +29,14 @@ export default function App({navigation}) {
   const loginUser = () => {
     console.log('login:', login);
     console.log('password:', password);
+    let tableName;
     const hashPasswordString = "Хэш пароля";
     const buffer = Buffer.from(hashPasswordString, 'utf8');
     const encodedHashPasswordString = buffer.toString('latin1');
     if (Platform.OS == 'ios') {
-      hashPasswordString = encodedHashPasswordString;
+      tableName = encodedHashPasswordString;
+    } else if (Platform.OS == 'android') {
+      tableName = hashPasswordString;
     }
     if (database) {
       console.log('database is running');
@@ -47,7 +50,7 @@ export default function App({navigation}) {
             console.log('Query Result:', rows); 
   
             if (rows && rows.length > 0) {
-              hashedPassword = rows.item(0)[hashPasswordString];
+              hashedPassword = rows.item(0)[tableName];
               console.log('hashedPassword:', hashedPassword);
   
               if (hashedPassword !== null) {
