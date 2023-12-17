@@ -37,6 +37,7 @@ export default function App() {
               const allergentName = allergens[index].Name;
               const allergen = allergentName;
               allergens.push(allergen)
+              console.log(allergen)
             }
             setAllergens(allergens)
           },
@@ -53,7 +54,7 @@ export default function App() {
   }
   return (
     <View>
-      <Text onPress={getUsersAllergensForSearchBox}>
+      <Text onPress={() => getUsersAllergensForSearchBox()}>
         <Text>get user allergens</Text>
       </Text>
         <StatusBar theme='auto' />
