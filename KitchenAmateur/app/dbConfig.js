@@ -36,5 +36,20 @@ export async function OpenDatabase() {
 //   } catch (error) {
 //     console.error(error);
 //     return null;
-//   }
+//   } 
 // }
+export async function deleteDatabase() {
+  try {
+    const databasePath = FileSystem.documentDirectory + `SQLite/${FOO}`;
+
+    // Check if the file exists before attempting to delete
+    if (await FileSystem.getInfoAsync(databasePath).exists) {
+      await FileSystem.deleteAsync(databasePath);
+      console.log('Database deleted successfully!');
+    } else {
+      console.log('Database does not exist.');
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}

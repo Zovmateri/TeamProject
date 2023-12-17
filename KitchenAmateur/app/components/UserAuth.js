@@ -26,7 +26,8 @@ export const UserAuth = ({
   setChecked,
 }) => {
   return (
-    <View style={style.body}>
+    <View>
+      <ImageBackground source={require('../assets/pics/7.png')}>
       <Text style={style.h2}>Авторизация</Text>
       <View>
         <TextInput
@@ -66,6 +67,7 @@ export const UserAuth = ({
           Перейти на форму регистрации
         </Text>
       </View>
+      </ImageBackground>
     </View>
   );
 };

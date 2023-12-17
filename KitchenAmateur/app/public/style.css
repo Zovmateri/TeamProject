@@ -16,13 +16,13 @@
     width: 70%;
     height: 14%;
     border-radius: 30px;
-    border: 3px solid #FBA806;
+    border: 2px solid #000000;
     margin-bottom: 40px;
     font-size: 30px;
     font-size: 40px;
     align-self: center;
-    padding: 10px 15px 10px 15px;
-    font-weight: 200;
+    padding: 0px 18px 0px 18px;
+    font-weight: 200; 
 }
 .registration{
     width: 500px;

@@ -30,17 +30,23 @@ export default function App() {
           console.log('query is:',query, '\nlogin is:',login),
           query,[login],
           (txObj, resultSet) => {
-            let updatedAllergens = []; // Use a temporary array
-            console.log('length:',resultSet.rows.length)
-            for (let i = 0; i < resultSet.rows.length; i++) {
-              const allergenIndex = resultSet.rows.item(i)['ID Аллергена'];
-              const index = allergens.findIndex((s) => s.Index === allergenIndex);
-              const allergenName = allergens[index].Name;
-              const allergen = allergenName;
-              updatedAllergens.push(allergen);
-              console.log(allergen);
-            }
+            const rows = resultSet.rows;
+            console.log('Query Result:', rows); 
+            
+            if (rows && rows.length > 0) {
+              let updatedAllergens = []; // Use a temporary array
+              console.log('length:',resultSet.rows.item(0))
+              for (let i = 0; i < resultSet.rows.length; i++) {
+                const allergenIndex = resultSet.rows.item(i)['ID Аллергена'];
+                const index = allergens.findIndex((s) => s.Index === allergenIndex);
+                const allergenName = allergens[index].Name;
+                const allergen = allergenName;
+                updatedAllergens.push(allergen);
+                console.log(allergen);
+             }
             setAllergens(updatedAllergens)
+            } else console.log('no rows')
+            
           },
           (txObj, error) => console.log('Query Error:', error)
         );
@@ -53,9 +59,9 @@ export default function App() {
   }
   return (
     <View>
-      <Pressable onPress={() => getUsersAllergensForSearchBox()}>
+      <Text onPress={() => getUsersAllergensForSearchBox()}>
         <Text>get user allergens</Text>
-      </Pressable>
+      </Text>
         <StatusBar theme='auto' />
     </View>
   );
