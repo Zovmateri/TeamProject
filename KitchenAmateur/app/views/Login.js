@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import {StyleSheet, View, Text, TextInput, Button, Alert} from 'react-native';
+import {StyleSheet, View, Text, TextInput, Button, Alert, Platform} from 'react-native';
 import * as bcrypt from 'react-native-bcrypt';
 import { UserAuth } from '../components/UserAuth';
 import {OpenDatabase} from '../dbConfig'
 import { setLoginState } from '../Storage';
+import { Buffer } from 'buffer'
 
 
 export default function App({navigation}) {
@@ -28,6 +29,12 @@ export default function App({navigation}) {
   const loginUser = () => {
     console.log('login:', login);
     console.log('password:', password);
+    const hashPasswordString = "Хэш пароля";
+    const buffer = Buffer.from(hashPasswordString, 'utf8');
+    const encodedHashPasswordString = buffer.toString('latin1');
+    if (Platform.OS == 'ios') {
+      hashPasswordString = encodedHashPasswordString;
+    }
     if (database) {
       console.log('database is running');
       console.log('database info:',database)
@@ -40,7 +47,7 @@ export default function App({navigation}) {
             console.log('Query Result:', rows); 
   
             if (rows && rows.length > 0) {
-              hashedPassword = rows.item(0)['Хэш пароля'];
+              hashedPassword = rows.item(0)[hashPasswordString];
               console.log('hashedPassword:', hashedPassword);
   
               if (hashedPassword !== null) {
