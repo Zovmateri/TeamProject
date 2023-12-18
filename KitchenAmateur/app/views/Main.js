@@ -4,10 +4,10 @@ import {StyleSheet, View, Text, TextInput, Button, Alert, Pressable, Image} from
 import {OpenDatabase} from '../dbConfig'
 import { getLogin } from '../Storage';
 import {MaterialCommunityIcons, AntDesign,FontAwesome} from '@expo/vector-icons'
-
+import EventEmitter from 'react-native/Libraries/vendor/emitter/EventEmitter';
 
 export default function App({navigation}) {
-  const [database, setDatabase] = React.useState(null); // Stores the database connection
+  const [database, setDatabase] = React.useState(null);
   const [allergens, setAllergens] = React.useState([]);
   const [selectedRecipes, setSelectedRecipes] = React.useState([]);
   const [recipeeAllergens,setRecipeeAllergens] = React.useState([]);
@@ -20,21 +20,29 @@ export default function App({navigation}) {
     })
   }, []); 
    
-  React.useLayoutEffect(() => {
-    const fetchData = async () => {
-      if (database) {
-        await getUserAllergenNames();
-        await getRecipeeAllergens();
-        await getAllRecipees(); // Wait for getRecipeeAllergens to complete before calling getAllRecipees
-      }
-    };
- 
-    fetchData(); 
-  }, [database]);
-  
   React.useEffect(() => {
-    getAllRecipees();
-  },[recipeeAllergens])
+    const fetchData = async () => {
+      await getUserAllergenNames();
+      console.log('end first:',allergens)
+    }
+    fetchData()
+  },[database,allergens])
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      await getRecipeeAllergens();
+      console.log('end second',recipeeAllergens)
+    }
+    fetchData()
+  },[database,setAllergens,setRecipeeAllergens,allergens,selectedRecipes]) 
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      await getAllRecipees();
+      console.log('end third',selectedRecipes)
+    }
+    fetchData()
+  },[database,setRecipeeAllergens, recipeeAllergens])
 
   const getUserAllergenNames = async () => {
     const temporaryAllergenNames = [];
@@ -56,9 +64,16 @@ export default function App({navigation}) {
               if (rows && rows.length > 0) {
                 for (let i = 0; i < rows.length; i++) {
                   const allergenName = rows.item(i)['Название'];
-                  temporaryAllergenNames.push(allergenName);
+                  if (!temporaryAllergenNames.includes(allergenName)) {
+                    temporaryAllergenNames.push(allergenName);
+                  }
                 }
-                setAllergens(temporaryAllergenNames);
+                const newAllergens = temporaryAllergenNames.filter((allergen) => !allergens.includes(allergen));
+                if (newAllergens.length > 0) {
+                  setAllergens(newAllergens);
+                  console.log('first');
+                }
+                
                 resolve();
               } else {
                 console.log('No rows found.');
@@ -73,6 +88,7 @@ export default function App({navigation}) {
   }
    
   const getRecipeeAllergens = async() => {
+    console.log('second')
     if (database) {
       const query =
       'SELECT inset.[ID Набора ингредиента], aler.[ID Аллергена],aler.Название ' +
@@ -82,7 +98,7 @@ export default function App({navigation}) {
       'inner join Аллерген aler on ing.[ID Аллергена] = aler.[ID Аллергена] ' +
       'Where rccont.[ID Рецепта]= ?';
 
-      const Allergens = [];
+      const allergensSet = new Set(recipeeAllergens);
 
       for (const recipe of selectedRecipes) {
         await new Promise((resolve, reject) => {
@@ -92,11 +108,10 @@ export default function App({navigation}) {
               (txObj, resultSet) => {
                 
                 for (let i = 0; i < resultSet.rows.length; i++) {
-                  Allergens.push(resultSet.rows.item(i)['Название'])
-                  console.log('allergen name:',resultSet.rows.item(i)['Название'])
+                  allergensSet.add(resultSet.rows.item(i)['Название'])
                 }
-                setRecipeeAllergens(Allergens)
-                console.log('recipe allergens:',Allergens)
+                setRecipeeAllergens(allergensSet)
+                console.log('recipe allergens:',allergensSet)
                 resolve();
               },
               (txObj, error) => reject(error)  
@@ -104,12 +119,17 @@ export default function App({navigation}) {
           }); 
         });
       } 
+      const uniqueAllergens = Array.from(allergensSet);
+      if (JSON.stringify(uniqueAllergens) !== JSON.stringify(recipeeAllergens)) {
+        setRecipeeAllergens(uniqueAllergens);
+        console.log('recipe allergens:', uniqueAllergens);
+      }
     }
   }
 
   const getAllRecipees = async() => {
-
-    if (database) {
+    console.log('start')
+    if (database) { 
       const query =
         'Select rc.[ID Рецепта], rc.[Название рецепта],rc.Инструкция, rc.[Время приготовления], ' +
         'rc.[Рейтинг рецепта],rc.[Фотография блюда] From Рецепт rc';
@@ -130,13 +150,20 @@ export default function App({navigation}) {
                   rating: row[Object.keys(resultSet.rows.item(i))[4]], 
                   photo: row[Object.keys(resultSet.rows.item(i))[5]],
                 };
-                const hasOverlap = recipeeAllergens.some((recipeAllergen) => allergens.includes(recipeAllergen))
-                if (!hasOverlap) {
-                  recipes.push(recipe);
+                if (recipeeAllergens !== undefined) {
+                  const recipeExists = selectedRecipes.some((selectedRecipe) => selectedRecipe.id === recipe.id);
+                  if (!recipeExists) {
+                    const hasOverlap = Array.isArray(recipeeAllergens) && recipeeAllergens.some((recipeAllergen) => allergens.includes(recipeAllergen));
+                    if (!hasOverlap) {
+                      recipes.push(recipe);
+                    }
+                  }
+                } else {
+                  console.error('recipeeAllergens is undefined')
+                  return;
                 }
-
               }
-              setSelectedRecipes(recipes)
+              setSelectedRecipes(recipes);
               resolve(); 
             }, 
             (txObj, error) => reject(error) 
