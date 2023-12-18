@@ -26,27 +26,24 @@ export const UserAuth = ({
   setChecked,
 }) => {
   return (
-    <View>
+    <View style={style.body}>
       <ImageBackground source={require('../assets/pics/7.png')}>
-      <Text style={style.h2}>Авторизация</Text>
+      <Text style={[style.h2, style.auth, style.shadow]}>Авторизация</Text>
       <View>
         <TextInput
-          style={style.input}
+          style={style.inputAuth}
           placeholder="Логин"
           value={login}
-          onChangeText={setLogin} //Зачем?
           required
         />
         <TextInput
-          style={style.input}
+          style={style.inputAuth}
           placeholder="Пароль"
           secureTextEntry
           value={password}
-          onChangeText={setPassword} //Зачем?
           required
           last
         />
-        <View style={style.container}>
           <View style={style.checkboxContainer}>
             <Text style={style.isrememtxt}>Запомнить пароль</Text>
             <Checkbox
@@ -56,7 +53,6 @@ export const UserAuth = ({
               color={Checked ? "#FBA806" : undefined}
             />
           </View>
-        </View>
         <Text onPress={authUser} style={style.enter}>
           Войти
         </Text>

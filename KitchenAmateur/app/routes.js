@@ -10,7 +10,7 @@ import HomeScreen from './views/Home';
 const Stack = createNativeStackNavigator();
 
 const commonScreenOptions = {
-    headerStyle: {backgroundColor: 'tomato'},
+    headerStyle: {backgroundColor: 'white'},
     headerTitleAlign: 'center',
     gestureEnabled: true,
     //headerShown: false,
