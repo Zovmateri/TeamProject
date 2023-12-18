@@ -1,9 +1,22 @@
-import {StyleSheet, View, Text, TextInput, Button, Image, TouchableOpacity, ImageBackground} from 'react-native';
-import styled from 'styled-components';
-import {Checkbox} from 'expo-checkbox';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import style from '../public/style.css';
+import React from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  checkboxButton,
+  Image,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native";
+import Checkbox from "expo-checkbox";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+import style from "../public/style.css";
 
+<<<<<<< HEAD
 const Container = styled.View`
   background-color: #fff;
   justify-content: center;
@@ -80,12 +93,35 @@ export const UserAuth = ({login,setLogin,password,setPassword,authUser,isChecked
       <Heading>Авторизация</Heading>
       <Form>
         <Input
+=======
+export const UserAuth = ({
+  login,
+  setLogin,
+  password,
+  setPassword,
+  authUser,
+  Checked,
+  setChecked,
+}) => {
+  return (
+    <View style={style.body}>
+      <ImageBackground source={require('../assets/pics/7.png')}>
+      <Text style={[style.h2, style.auth, style.shadow]}>Авторизация</Text>
+      <View>
+        <TextInput
+          style={style.inputAuth}
+>>>>>>> 957ebcf0fcdc78421d5d48ba669181af9a12f599
           placeholder="Логин"
           value={login}
           onChangeText={setLogin}
           required
         />
+<<<<<<< HEAD
         <Input
+=======
+        <TextInput
+          style={style.inputAuth}
+>>>>>>> 957ebcf0fcdc78421d5d48ba669181af9a12f599
           placeholder="Пароль"
           secureTextEntry
           value={password}
@@ -93,6 +129,7 @@ export const UserAuth = ({login,setLogin,password,setPassword,authUser,isChecked
           required
           last
         />
+<<<<<<< HEAD
         
         <Checkbox
           style={styles.checkbox}
@@ -187,3 +224,28 @@ export const UserAuth = ({login,setLogin,password,setPassword,authUser,isChecked
     // </Container>
     )
 }
+=======
+          <View style={style.checkboxContainer}>
+            <Text style={style.isrememtxt}>Запомнить пароль</Text>
+            <Checkbox
+              style={style.isremember}
+              value={Checked}
+              onValueChange={(Checked) => setChecked(Checked)}
+              color={Checked ? "#FBA806" : undefined}
+            />
+          </View>
+        <Text onPress={authUser} style={style.enter}>
+          Войти
+        </Text>
+        <Text
+          style={style.toRegistr}
+          onPress={() => console.log("Navigate to registration")}
+        >
+          Перейти на форму регистрации
+        </Text>
+      </View>
+      </ImageBackground>
+    </View>
+  );
+};
+>>>>>>> 957ebcf0fcdc78421d5d48ba669181af9a12f599

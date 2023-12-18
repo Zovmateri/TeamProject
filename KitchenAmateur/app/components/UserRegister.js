@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {StyleSheet, View, Text, TextInput, Button, Image, TouchableOpacity, ImageBackground, useWindowDimensions} from 'react-native';
 import styled from 'styled-components';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -6,6 +7,21 @@ const Container = styled.View`
   justify-content: center;
   height: ${hp('100%')};
 `;
+=======
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  Button,
+  Image,
+  TouchableOpacity,
+  ImageBackground,
+  useWindowDimensions,
+} from "react-native";
+import styled from "styled-components";
+import style from "../public/style.css";
+>>>>>>> 957ebcf0fcdc78421d5d48ba669181af9a12f599
 
 const Heading = styled.Text`
   text-align: center;
@@ -13,11 +29,14 @@ const Heading = styled.Text`
   margin-bottom: 20px;
 `;
 
+<<<<<<< HEAD
 const Form = styled.View`
   width: ${wp('100%')};
   align-items: center;
 `;
 
+=======
+>>>>>>> 957ebcf0fcdc78421d5d48ba669181af9a12f599
 const Input = styled.TextInput`
   width: 250px;
   height: 50px;
@@ -47,7 +66,6 @@ const Buttons = styled(TouchableOpacity)`
   outline: none;
   transition: background-color 300ms, text-shadow 300ms;
   margin-bottom: 40px;
-  
 `;
 
 const ButtonText = styled.Text`
@@ -64,37 +82,53 @@ const Links = styled.Text`
   color: #007bff;
 `;
 
-export const UserRegister = ({login,setLogin,currentName,setCurrentName,surname,setSurname,email,setEmail,password,setPassword,registerUser}) => {
-    return (
-    <Container>
-      <ImageBackground source={require('../assets/pics/7.png')}>
-      <Heading>Регистрация</Heading>
-      <Form>
-        <Input
+export const UserRegister = ({
+  login,
+  setLogin,
+  currentName,
+  setCurrentName,
+  surname,
+  setSurname,
+  email,
+  setEmail,
+  password,
+  setPassword,
+  registerUser,
+}) => {
+  return (
+    <View style={style.body}>
+      <ImageBackground source={require("../assets/pics/7.png")}>
+        <Text style={[style.h2, style.reg, style.shadow]}>Регистрация</Text>
+        <TextInput
+          style={style.inputReg}
           placeholder="Логин"
           value={login}
           onChangeText={setLogin}
           required
         />
-        <Input
+        <TextInput
+          style={style.inputReg}
           placeholder="Имя"
           value={currentName}
           onChangeText={setCurrentName}
           required
         />
-        <Input
+        <TextInput
+          style={style.inputReg}
           placeholder="Фамилия"
           value={surname}
           onChangeText={setSurname}
           required
         />
-        <Input
+        <TextInput
+          style={style.inputReg}
           placeholder="Email"
           value={email}
           onChangeText={setEmail}
           required
         />
-        <Input
+        <TextInput
+          style={style.inputReg}
           placeholder="Пароль"
           secureTextEntry
           value={password}
@@ -105,15 +139,13 @@ export const UserRegister = ({login,setLogin,currentName,setCurrentName,surname,
         <Buttons onPress={registerUser}>
           <ButtonText>Зарегистрироваться</ButtonText>
         </Buttons>
-        <AuthorizationText>
-          <Text>Авторизоваться </Text>
-          <Links onPress={() => console.log('Navigate to authorization')}>
-            www.autorization.ru
-          </Links>
-        </AuthorizationText>
-      </Form>
+        <Text
+          style={style.toRegistr}
+          onPress={() => console.log("Navigate to registration")}
+        >
+          Авторизироваться
+        </Text>
       </ImageBackground>
-      
-    </Container>
-    )
-}
+    </View>
+  );
+};

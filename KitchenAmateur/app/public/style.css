@@ -3,38 +3,39 @@
     --transition: 1.5s cubic-bezier(0.05,0.5,0,1);
 }
 .body{
-    background-image: url(7.png);
+    background-color: white;
+    height: 100%;
+    width: 100%;
 }
 .h2{
-    text-align: center;
+    align-self: center;
     font-size: 50px;
+    font-weight: 200;
 }
-.input{
-    width: 250px;
-    height: 50px;
-    flex-shrink: 0; 
-    border-radius: 20px;
+.shadow{
+    box-shadow: 3px 3px 3px #000000;
+}
+.reg{
+    margin: 30px 0px 80px 0px;
+}
+.auth{
+    margin: 80px 0px 80px 0px;
+}
+/* ----------------- Input forms ----------------- */
+.inputAuth{
+    width: 240px;
+    height: 60px;
+    border-radius: 30px;
     border: 2px solid #FBA806;
-    margin-bottom: 50px;
-    font-size: 45px;
-}
-.registration{
-    width: 500px;
-    height: 64px;
-    flex-shrink: 0;
-    text-transform: uppercase;
-    font-size: 40px;
-    color:#FBA806;
-    background-color: transparent;
-    padding: 10px 20px;
-    border: #FBA806 3px solid;
-    text-shadow: 0 0 8px #FBA806;
-    box-shadow: 0 0 8px #FBA806;
-    margin-top:calc(var(calc(1vw + 1vh)) * 4);
-    margin-left:calc(var(calc(1vw + 1vh)) * 8);
-    border-radius:0 160px 0 160px;
+    background-color: rgba(255, 255, 255, 0.603);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
     margin-bottom: 40px;
+    font-size: 30px;
+    align-self: center;
+    padding: 0px 18px 0px 18px;
+    font-weight: 200; 
 }
+<<<<<<< HEAD
 <<<<<<< HEAD
 #button{
     width: 3%;
@@ -53,23 +54,37 @@ flex-shrink: 0;
 border: 3px solid #000;
 background: #D9D9D9;
 margin-bottom: 20px;
+=======
+.inputReg{
+    width: 190px;
+    height: 50px;
+    border-radius: 30px;
+    border: 2px solid #FBA806;
+    background-color: rgba(255, 255, 255, 0.603);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    margin-bottom: 10px;
+    font-size: 15px;
+    align-self: center;
+    padding: 0px 18px 0px 18px;
+    font-weight: 200; 
+>>>>>>> 957ebcf0fcdc78421d5d48ba669181af9a12f599
 }
 .enter{
-    width: 294px;
-height: 64px;
-flex-shrink: 0;
+    width: 200px;
+    height: 60px;
     text-transform: uppercase;
-    font-size: 40px;
+    font-size: 32px;
     color:#00bb03;
     background-color: transparent;
-    padding: 10px 20px;
     border: #00bb03 3px solid;
     text-shadow: 0 0 8px #00bb03;
     box-shadow: 0 0 8px #00bb03;
-    margin-top:calc(var(calc(1vw + 1vh)) * 4);
-    margin-left:calc(var(calc(1vw + 1vh)) * 8);
-    border-radius:0 160px 0 160px;
-    margin-bottom: 40px;
+    border-radius:30px;
+    align-self: center;
+    text-align: center;
+    align-items:center;
+    padding: 10px;
+    margin: 0px;
 }
 <<<<<<< HEAD
 .imaaa{
@@ -93,7 +108,48 @@ flex-shrink: 0;
 .a1:hover{
     font-size: 24px;
 }
-.div{
+.toRegistr{
+    align-self: center;
     text-align: center;
+<<<<<<< HEAD
 >>>>>>> 9f2a19dc039a2f1192acff9e63760d64e6f14766
 }
+=======
+    padding-top: 15%;
+}
+/* ----------------- End ----------------- */
+/* ----------------- Checkbox "remember password" ----------------- */
+.isremember{
+    width: 20px;
+    height: 20px;
+    border: 1px solid #000;
+    align-self: center;
+    flex-direction: 'row';
+    box-shadow: 0 0 8px #FBA806;
+}
+.isrememtxt{
+    justify-content: center;
+    text-align: center;
+    margin: 0px 10px 0px 0px;
+    font-size: 16px;
+}
+.checkboxContainer{
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    margin-top: 10px;
+}
+/* ----------------- End ----------------- */
+
+/* ----------------- Temporary main menu ----------------- */
+.borderForMain{
+    border: #00bb03 1px solid;
+    box-shadow: 0 0 8px #00bb03;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+}
+/* ----------------- End ----------------- */
+>>>>>>> 957ebcf0fcdc78421d5d48ba669181af9a12f599
