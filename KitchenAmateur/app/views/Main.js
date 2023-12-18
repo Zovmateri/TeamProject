@@ -10,6 +10,8 @@ export default function App({navigation}) {
   const [allergens, setAllergens] = React.useState([]);
   const [selectedRecipes, setSelectedRecipes] = React.useState([]);
   const [recipeeAllergens,setRecipeeAllergens] = React.useState([]);
+  const [searchText, setSearchText] = React.useState('');
+  const [originalRecipes, setOriginalRecipes] = React.useState([]);
   const login = getLogin();
 
   
@@ -43,10 +45,10 @@ export default function App({navigation}) {
     fetchData()
   },[database,allergens ,recipeeAllergens])
 
-  const getUserAllergenNames = async () => {
+  const getUserAllergenNames = async () => { 
     const temporaryAllergenNames = [];
 
-    if (database) {
+    if (database && login) {
       const query =
         'SELECT a.[Название] FROM [Аллерген пользователя] al ' +
         'JOIN [Личные данные] ld ON ld.[ID Пользователя] = al.[ID Пользователя] ' +
@@ -83,6 +85,8 @@ export default function App({navigation}) {
           );
         });
       });
+    } else if (database) {
+      setAllergens([])
     }
   }
    
@@ -125,67 +129,115 @@ export default function App({navigation}) {
     }  
   }
 
-  const getAllRecipees = async() => {
-    console.log('start')
-    if (database) { 
+  const getAllRecipees = async () => {
+    console.log('start');
+    if (database) {
       const query =
-        'Select rc.[ID Рецепта], rc.[Название рецепта],rc.Инструкция, rc.[Время приготовления], ' +
-        'rc.[Рейтинг рецепта],rc.[Фотография блюда] From Рецепт rc';
-
+        'SELECT distinct rc.[ID Рецепта], rc.[Название рецепта],rc.Инструкция, rc.[Время приготовления], ' +
+        'rc.[Рейтинг рецепта],rc.[Фотография блюда], ing.[Название ингредиента] ' +
+        'FROM Рецепт rc ' +
+        'LEFT JOIN [Содержание рецепта] rccont ON rc.[ID Рецепта] = rccont.[ID Рецепта] ' +
+        'LEFT JOIN [Набор ингредиента] inset ON rccont.[ID Набора ингредиента] = inset.[ID Набора ингредиента] ' +
+        'LEFT JOIN Ингредиент ing ON inset.[ID Ингредиента] = ing.[ID Ингредиента]';
+  
       await new Promise((resolve, reject) => {
         database.transaction((tx) => {
-          tx.executeSql( 
-            query,[], 
+          tx.executeSql(
+            query,
+            [],
             (txObj, resultSet) => {
-              const recipes = [];
+              const recipesWithIngredients = [];
+              let currentRecipe = null;
+  
               for (let i = 0; i < resultSet.rows.length; i++) {
                 const row = resultSet.rows.item(i);
-                const recipe = {
-                  id: row[Object.keys(resultSet.rows.item(i))[0]],
-                  name: row[Object.keys(resultSet.rows.item(i))[1]],
-                  instructions: row[Object.keys(resultSet.rows.item(i))[2]],
-                  cookingTime: row[Object.keys(resultSet.rows.item(i))[3]],
-                  rating: row[Object.keys(resultSet.rows.item(i))[4]], 
-                  photo: row[Object.keys(resultSet.rows.item(i))[5]],
-                };
-                recipes.push(recipe);
+                const recipeId = row['ID Рецепта'];
+  
+                if (!currentRecipe || currentRecipe.id !== recipeId) {
+                  // Create a new recipe object
+                  currentRecipe = {
+                    id: recipeId,
+                    name: row['Название рецепта'],
+                    instructions: row['Инструкция'],
+                    cookingTime: row['Время приготовления'],
+                    rating: row['Рейтинг рецепта'],
+                    photo: row['Фотография блюда'],
+                    ingredients: [],
+                  };
+  
+                  recipesWithIngredients.push(currentRecipe);
+                }
+  
+                // Add ingredient to the current recipe
+                const ingredientName = row['Название ингредиента'];
+                if (ingredientName) {
+                  currentRecipe.ingredients.push(ingredientName);
+                }
               }
-                const filteredRecipes = recipes.filter((recipe) => {
-                  const recipeeAllergenOverlap = Array.isArray(recipeeAllergens) &&
-                    recipeeAllergens.some((recipeAllergen) =>
-                      allergens.includes(recipeAllergen)
-                    );
-                  return !recipeeAllergenOverlap;
-                });
-                
-                const sortedRecipes = filteredRecipes.sort(
-                  (a, b) => b.rating - a.rating
-                );
-                setSelectedRecipes(sortedRecipes);
-                resolve();
-            }, 
-            (txObj, error) => reject(error) 
+  
+              const recipesWithoutAllergens = recipesWithIngredients.filter((recipe) => {
+                const recipeeAllergenOverlap =
+                  Array.isArray(recipeeAllergens) &&
+                  recipeeAllergens.some((recipeAllergen) => allergens.includes(recipeAllergen));
+                return !recipeeAllergenOverlap;
+              });
+  
+              const sortedRecipes = recipesWithoutAllergens.sort((a, b) => b.rating - a.rating);
+              setSelectedRecipes(sortedRecipes);
+              setOriginalRecipes(sortedRecipes);
+              resolve();
+            },
+            (txObj, error) => reject(error)
           );
-        }); 
+        });
       });
     }
-  }
+  };
+  
+  const handleSearchTextChange = (text) => {
+    setSearchText(text);
+  
+    if (text) {
+      const filteredRecipes = originalRecipes.filter(
+        (recipe) =>
+          recipe.name.toLowerCase().startsWith(text.toLowerCase()) ||
+          recipe.ingredients.some((ingredient) =>
+            ingredient.toLowerCase().startsWith(text.toLowerCase())
+          )
+      );
+      const filteredRecipesWithoutAllergens =
+        allergens.length > 0
+          ? filteredRecipes.filter(
+              (recipe) =>
+                !recipeeAllergens.some((allergen) => allergens.includes(allergen))
+            )
+          : filteredRecipes;
+  
+      setSelectedRecipes(filteredRecipesWithoutAllergens);
+    } else {
+      const filteredRecipesWithoutAllergens =
+        allergens.length > 0
+          ? originalRecipes.filter(
+              (recipe) =>
+                !recipeeAllergens.some((allergen) => allergens.includes(allergen))
+            )
+          : originalRecipes;
+  
+      setSelectedRecipes(filteredRecipesWithoutAllergens);
+    }
+  };
+  
+  
   
   return (
     <View>
       <StatusBar theme='auto' />
-      {allergens.length > 0 && (
-        <View style={{ flexWrap: 'wrap', flexDirection: 'row' }}>
-          {allergens.map((allergen, index) => (
-            <Text 
-              key={index}
-              style={{ margin: 5, backgroundColor: '#eee', padding: 10 }}
-            >
-              {allergen}
-            </Text>
-          ))}
-        </View>
-      )}
+      <TextInput
+        style={styles.searchBar}
+        placeholder="Поиск..."
+        onChangeText={handleSearchTextChange}
+        value={searchText}
+      />
       {selectedRecipes.length > 0 && (
         <View style={{ flexWrap: 'wrap', flexDirection: 'row' }}>
           {selectedRecipes.map((recipe, index) => (
@@ -210,3 +262,16 @@ export default function App({navigation}) {
     </View>
   );
 }
+const styles = StyleSheet.create({
+  searchBar: {
+    height: 40,
+    width: 380,
+    alignSelf: 'center',
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 10,
+    paddingLeft: 10,
+    borderRadius: 50,
+    marginTop: 15,
+  },
+});
