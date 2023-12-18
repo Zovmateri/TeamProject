@@ -9,22 +9,25 @@ import HomeScreen from './views/Home';
 
 const Stack = createNativeStackNavigator();
 
+const commonScreenOptions = {
+    headerStyle: {backgroundColor: 'tomato'},
+    headerTitleAlign: 'center',
+    gestureEnabled: true,
+    //headerShown: false,
+  };
 export const AppNavigator = () => (
-        <Stack.Navigator initialRouteName='Home' >
+        <Stack.Navigator initialRouteName='Home' screenOptions={commonScreenOptions}>
             <Stack.Screen 
                 name='Main' 
                 component={MainScreen}
-                //options={{ headerShown: false }} 
             />
             <Stack.Screen 
                 name='Login' 
                 component={LoginScreen} 
-                //options={{ headerShown: false }}
             />
             <Stack.Screen 
                 name='Register' 
                 component={RegisterScreen} 
-                //options={{ headerShown: false }}
             />
             <Stack.Screen 
                 name='Home' component={HomeScreen} 
