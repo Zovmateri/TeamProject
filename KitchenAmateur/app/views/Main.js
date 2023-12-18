@@ -4,7 +4,6 @@ import {StyleSheet, View, Text, TextInput, Button, Alert, Pressable, Image} from
 import {OpenDatabase} from '../dbConfig'
 import { getLogin } from '../Storage';
 import {MaterialCommunityIcons, AntDesign,FontAwesome} from '@expo/vector-icons'
-import EventEmitter from 'react-native/Libraries/vendor/emitter/EventEmitter';
 
 export default function App({navigation}) {
   const [database, setDatabase] = React.useState(null);
@@ -26,7 +25,7 @@ export default function App({navigation}) {
       console.log('end first:',allergens)
     }
     fetchData()
-  },[database,allergens])
+  },[database])
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -34,7 +33,7 @@ export default function App({navigation}) {
       console.log('end second',recipeeAllergens)
     }
     fetchData()
-  },[database,setAllergens,setRecipeeAllergens,allergens,selectedRecipes]) 
+  },[database, allergens,selectedRecipes])  
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -42,7 +41,7 @@ export default function App({navigation}) {
       console.log('end third',selectedRecipes)
     }
     fetchData()
-  },[database,setRecipeeAllergens, recipeeAllergens])
+  },[database,allergens ,recipeeAllergens])
 
   const getUserAllergenNames = async () => {
     const temporaryAllergenNames = [];
@@ -72,7 +71,7 @@ export default function App({navigation}) {
                 if (newAllergens.length > 0) {
                   setAllergens(newAllergens);
                   console.log('first');
-                }
+                } 
                 
                 resolve();
               } else {
@@ -91,7 +90,7 @@ export default function App({navigation}) {
     console.log('second')
     if (database) {
       const query =
-      'SELECT inset.[ID Набора ингредиента], aler.[ID Аллергена],aler.Название ' +
+      'SELECT distinct inset.[ID Набора ингредиента], aler.[ID Аллергена], aler.Название ' +
       'from [Набор ингредиента] inset ' +
       'inner join [Содержание рецепта] rccont on inset.[ID Набора ингредиента] = rccont.[ID Набора ингредиента] ' +
       'inner join Ингредиент ing on inset.[ID Ингредиента] = ing.[ID Ингредиента] ' +
@@ -110,21 +109,20 @@ export default function App({navigation}) {
                 for (let i = 0; i < resultSet.rows.length; i++) {
                   allergensSet.add(resultSet.rows.item(i)['Название'])
                 }
-                setRecipeeAllergens(allergensSet)
-                console.log('recipe allergens:',allergensSet)
-                resolve();
+                // Check if recipeeAllergens has anything added
+                if (allergensSet.size > recipeeAllergens.length) {
+                  setRecipeeAllergens(Array.from(allergensSet));
+                } else {
+                  // No more allergens are added, move to the next step
+                  resolve();
+                }
               },
               (txObj, error) => reject(error)  
             ); 
           }); 
         });
       } 
-      const uniqueAllergens = Array.from(allergensSet);
-      if (JSON.stringify(uniqueAllergens) !== JSON.stringify(recipeeAllergens)) {
-        setRecipeeAllergens(uniqueAllergens);
-        console.log('recipe allergens:', uniqueAllergens);
-      }
-    }
+    }  
   }
 
   const getAllRecipees = async() => {
@@ -150,21 +148,21 @@ export default function App({navigation}) {
                   rating: row[Object.keys(resultSet.rows.item(i))[4]], 
                   photo: row[Object.keys(resultSet.rows.item(i))[5]],
                 };
-                if (recipeeAllergens !== undefined) {
-                  const recipeExists = selectedRecipes.some((selectedRecipe) => selectedRecipe.id === recipe.id);
-                  if (!recipeExists) {
-                    const hasOverlap = Array.isArray(recipeeAllergens) && recipeeAllergens.some((recipeAllergen) => allergens.includes(recipeAllergen));
-                    if (!hasOverlap) {
-                      recipes.push(recipe);
-                    }
-                  }
-                } else {
-                  console.error('recipeeAllergens is undefined')
-                  return;
-                }
+                recipes.push(recipe);
               }
-              setSelectedRecipes(recipes);
-              resolve(); 
+                const filteredRecipes = recipes.filter((recipe) => {
+                  const recipeeAllergenOverlap = Array.isArray(recipeeAllergens) &&
+                    recipeeAllergens.some((recipeAllergen) =>
+                      allergens.includes(recipeAllergen)
+                    );
+                  return !recipeeAllergenOverlap;
+                });
+                
+                const sortedRecipes = filteredRecipes.sort(
+                  (a, b) => b.rating - a.rating
+                );
+                setSelectedRecipes(sortedRecipes);
+                resolve();
             }, 
             (txObj, error) => reject(error) 
           );
