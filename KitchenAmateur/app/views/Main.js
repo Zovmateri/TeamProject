@@ -123,12 +123,12 @@ export default function App({navigation}) {
               for (let i = 0; i < resultSet.rows.length; i++) {
                 const row = resultSet.rows.item(i);
                 const recipe = {
-                  id: row['ID Рецепта'],
-                  name: row['Название рецепта'],
-                  instructions: row['Инструкция'],
-                  cookingTime: row['Время приготовления'],
-                  rating: row['Рейтинг рецепта'],
-                  photo: row['Фотография блюда'],
+                  id: row[Object.keys(resultSet.rows.item(i))[0]],
+                  name: row[Object.keys(resultSet.rows.item(i))[1]],
+                  instructions: row[Object.keys(resultSet.rows.item(i))[2]],
+                  cookingTime: row[Object.keys(resultSet.rows.item(i))[3]],
+                  rating: row[Object.keys(resultSet.rows.item(i))[4]], 
+                  photo: row[Object.keys(resultSet.rows.item(i))[5]],
                 };
                 const hasOverlap = recipeeAllergens.some((recipeAllergen) => allergens.includes(recipeAllergen))
                 if (!hasOverlap) {

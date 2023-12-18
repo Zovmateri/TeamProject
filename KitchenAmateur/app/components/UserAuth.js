@@ -34,6 +34,7 @@ export const UserAuth = ({
           style={style.inputAuth}
           placeholder="Логин"
           value={login}
+          onChangeText={setLogin}
           required
         />
         <TextInput
@@ -41,6 +42,7 @@ export const UserAuth = ({
           placeholder="Пароль"
           secureTextEntry
           value={password}
+          onChangeText={setPassword}
           required
           last
         />

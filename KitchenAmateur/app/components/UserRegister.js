@@ -83,24 +83,28 @@ export const UserRegister = ({
           style={style.inputReg}
           placeholder="Логин"
           value={login}
+          onChangeText={setLogin}
           required
         />
         <TextInput
           style={style.inputReg}
           placeholder="Имя"
           value={currentName}
+          onChangeText={setCurrentName}
           required
         />
         <TextInput
           style={style.inputReg}
           placeholder="Фамилия"
           value={surname}
+          onChangeText={setSurname}
           required
         />
         <TextInput
           style={style.inputReg}
           placeholder="Email"
           value={email}
+          onChangeText={setEmail}
           required
         />
         <TextInput
@@ -108,6 +112,7 @@ export const UserRegister = ({
           placeholder="Пароль"
           secureTextEntry
           value={password}
+          onChangeText={setPassword}
           required
           last
         />
