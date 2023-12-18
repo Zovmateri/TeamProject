@@ -126,7 +126,7 @@ export default function App() {
       });
       console.log('the end');
     } catch (error) {
-      console.error('Error during registration:', error);
+      console.error('Error during registration:', error); 
     }
   };
   
