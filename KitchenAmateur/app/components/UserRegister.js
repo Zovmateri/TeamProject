@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-import {StyleSheet, View, Text, TextInput, Button, Image, TouchableOpacity, ImageBackground, useWindowDimensions} from 'react-native';
-import styled from 'styled-components';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-
-const Container = styled.View`
-  justify-content: center;
-  height: ${hp('100%')};
-`;
-=======
 import {
   StyleSheet,
   View,
@@ -21,7 +11,6 @@ import {
 } from "react-native";
 import styled from "styled-components";
 import style from "../public/style.css";
->>>>>>> 957ebcf0fcdc78421d5d48ba669181af9a12f599
 
 const Heading = styled.Text`
   text-align: center;
@@ -29,24 +18,15 @@ const Heading = styled.Text`
   margin-bottom: 20px;
 `;
 
-<<<<<<< HEAD
-const Form = styled.View`
-  width: ${wp('100%')};
-  align-items: center;
-`;
-
-=======
->>>>>>> 957ebcf0fcdc78421d5d48ba669181af9a12f599
 const Input = styled.TextInput`
   width: 250px;
-  height: 50px;
+  height: 30px;
   border-radius: 10px;
   border-width: 3px;
-  border-color: grey;
+  border-color: #fba806;
   margin-bottom: 40px;
   font-size: 20px;
   padding-left: 15px;
-  
 `;
 const Buttons = styled(TouchableOpacity)`
   width: 190px;
@@ -57,7 +37,7 @@ const Buttons = styled(TouchableOpacity)`
   background-color: transparent;
   padding: 8px;
   border-width: 3px;
-  border-color: #00bb03;
+  border-color: #fba806;
   text-shadow: 0 0 0.5em #fba806;
   box-shadow: 0 0 0.5em #fba806;
   margin-top: 32px;

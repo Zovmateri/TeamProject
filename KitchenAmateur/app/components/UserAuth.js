@@ -16,84 +16,6 @@ import {
 } from "react-native-responsive-screen";
 import style from "../public/style.css";
 
-<<<<<<< HEAD
-const Container = styled.View`
-  background-color: #fff;
-  justify-content: center;
-  height: ${hp('100%')};
-`;
-
-const Heading = styled.Text`
-  text-align: center;
-  font-size: 50px;
-  margin-bottom: 20px;
-
-`;
-
-const Form = styled.View`
-  width: ${hp('50%')};
-  align-items: center;
-`;
-
-const Input = styled.TextInput`
-  width: 250px;
-  height: 50px;
-  border-radius: 10px;
-  border-width: 3px;
-  border-color: grey;
-  margin-bottom: 40px;
-  font-size: 20px;
-  padding-left: 15px;
-`;
-
-const Buttons = styled(TouchableOpacity)`
-  width: 190px;
-  height: 38px;
-  text-transform: uppercase;
-  font-size: 40px;
-  color: #fba806;
-  background-color: transparent;
-  padding: 8px;
-  border-width: 3px;
-  border-color: #00bb03;
-  text-shadow: 0 0 0.5em #fba806;
-  box-shadow: 0 0 0.5em #fba806;
-  margin-top: 32px;
-  margin-left: 5px;
-  border-radius: 10px;
-  outline: none;
-  transition: background-color 300ms, text-shadow 300ms;
-  margin-bottom: 40px;
-  
-`;
-
-const ButtonText = styled.Text`
-  color: green;
-  font-weight: bold;
-  text-align: center;
-`;
-
-const AuthorizationText = styled.Text`
-  text-align: center;
-`;
-
-const Links = styled.Text`
-  color: #007bff;
-`;
-const styles = StyleSheet.create({
-  checkbox: {
-    margin: 8,
-  }
-})
-export const UserAuth = ({login,setLogin,password,setPassword,authUser,isChecked,setChecked}) => {
-    return (
-<<<<<<< HEAD
-    <Container>
-      <ImageBackground source={require('../assets/pics/7.png')}>
-      <Heading>Авторизация</Heading>
-      <Form>
-        <Input
-=======
 export const UserAuth = ({
   login,
   setLogin,
@@ -110,18 +32,13 @@ export const UserAuth = ({
       <View>
         <TextInput
           style={style.inputAuth}
->>>>>>> 957ebcf0fcdc78421d5d48ba669181af9a12f599
           placeholder="Логин"
           value={login}
           onChangeText={setLogin}
           required
         />
-<<<<<<< HEAD
-        <Input
-=======
         <TextInput
           style={style.inputAuth}
->>>>>>> 957ebcf0fcdc78421d5d48ba669181af9a12f599
           placeholder="Пароль"
           secureTextEntry
           value={password}
@@ -129,102 +46,6 @@ export const UserAuth = ({
           required
           last
         />
-<<<<<<< HEAD
-        
-        <Checkbox
-          style={styles.checkbox}
-          value={isChecked}
-          onValueChange={setChecked}
-          color={isChecked ? '#4630EB' : undefined}
-          
-        ></Checkbox>
-        
-        <Buttons onPress={authUser}>
-          <ButtonText>Войти</ButtonText>
-        </Buttons>
-        <AuthorizationText>
-          <Text>До сих пор нет аккаунта? Зарегистрируйся здесь </Text>
-          <Links onPress={() => console.log('Navigate to registration')}>
-            www.registration.ru
-          </Links>
-        </AuthorizationText>
-      </Form>
-      </ImageBackground>
-=======
-      <View style={style.body}>
-        <Text style={style.h2}>Авторизация</Text>
-        <View style={style.div}>
-          <TextInput style={style.input}
-            placeholder="Логин"
-            value={login}
-            onChangeText={setLogin}
-            required
-          />
-          <TextInput style={style.input}
-            placeholder="Пароль"
-            secureTextEntry
-            value={password}
-            onChangeText={setPassword}
-            required
-            last
-          />
-          <TextInput style={style.isremember}
-            value={isChecked}
-            onValueChange={setChecked}
-            color={isChecked ? '#4630EB' : undefined}
-          />
-          <Text onPress={authUser} style={style.enter}>
-            <Text>Войти</Text>
-          </Text>
-          <Text>
-            <Text>До сих пор нет аккаунта? Зарегистрируйся здесь</Text>
-            <Text onPress={() => console.log('Navigate to registration')}>
-              www.registration.ru
-            </Text>
-          </Text>
-        </View>
-    </View>
-    // <Container>
-    //   <ImageBackground source={require('../assets/pics/7.png')} resizeMode=''>
-    //   <Heading>Авторизация</Heading>
-    //   <Form>
-    //     <Input
-    //       placeholder="Логин"
-    //       value={login}
-    //       onChangeText={setLogin}
-    //       required
-    //     />
-    //     <Input
-    //       placeholder="Пароль"
-    //       secureTextEntry
-    //       value={password}
-    //       onChangeText={setPassword}
-    //       required
-    //       last
-    //     />
-    //     <Checkbox
-    //       style={styles.checkbox}
-    //       value={isChecked}
-    //       onValueChange={setChecked}
-    //       color={isChecked ? '#4630EB' : undefined}
-    //     />
-    //     <Buttons onPress={authUser}>
-    //       <ButtonText>Войти</ButtonText>
-    //     </Buttons>
-    //     <AuthorizationText>
-    //       <Text>До сих пор нет аккаунта? Зарегистрируйся здесь</Text>
-    //       <Links onPress={() => console.log('Navigate to registration')}>
-    //         www.registration.ru
-    //       </Links>
-    //     </AuthorizationText>
-    //   </Form>
-    //   </ImageBackground>
->>>>>>> 9f2a19dc039a2f1192acff9e63760d64e6f14766
-      
-    // </Container>
-    )
-}
-=======
           <View style={style.checkboxContainer}>
             <Text style={style.isrememtxt}>Запомнить пароль</Text>
             <Checkbox
@@ -248,4 +69,3 @@ export const UserAuth = ({
     </View>
   );
 };
->>>>>>> 957ebcf0fcdc78421d5d48ba669181af9a12f599
