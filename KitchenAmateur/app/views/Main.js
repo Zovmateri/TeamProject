@@ -64,7 +64,7 @@ export default function App({navigation}) {
               const rows = resultSet.rows;
               if (rows && rows.length > 0) {
                 for (let i = 0; i < rows.length; i++) {
-                  const allergenName = rows.item(i)['Название'];
+                  const allergenName = rows.item(i)[Object.keys(resultSet.rows.item(0))[0]];
                   if (!temporaryAllergenNames.includes(allergenName)) {
                     temporaryAllergenNames.push(allergenName);
                   }
@@ -111,13 +111,13 @@ export default function App({navigation}) {
               (txObj, resultSet) => {
                 
                 for (let i = 0; i < resultSet.rows.length; i++) {
-                  allergensSet.add(resultSet.rows.item(i)['Название'])
+                  allergensSet.add(resultSet.rows.item(i)[Object.keys(resultSet.rows.item(i))[2]])
                 }
                 // Check if recipeeAllergens has anything added
                 if (allergensSet.size > recipeeAllergens.length) {
                   setRecipeeAllergens(Array.from(allergensSet));
                 } else {
-                  // No more allergens are added, move to the next step
+                  // No more allergens are added, move to the next step 
                   resolve();
                 }
               },
@@ -148,20 +148,19 @@ export default function App({navigation}) {
             (txObj, resultSet) => {
               const recipesWithIngredients = [];
               let currentRecipe = null;
-  
               for (let i = 0; i < resultSet.rows.length; i++) {
                 const row = resultSet.rows.item(i);
-                const recipeId = row['ID Рецепта'];
+                const recipeId = row[Object.keys(resultSet.rows.item(i))[0]];
   
                 if (!currentRecipe || currentRecipe.id !== recipeId) {
                   // Create a new recipe object
                   currentRecipe = {
                     id: recipeId,
-                    name: row['Название рецепта'],
-                    instructions: row['Инструкция'],
-                    cookingTime: row['Время приготовления'],
-                    rating: row['Рейтинг рецепта'],
-                    photo: row['Фотография блюда'],
+                    name: row[Object.keys(resultSet.rows.item(i))[1]],
+                    instructions: row[Object.keys(resultSet.rows.item(i))[2]],
+                    cookingTime: row[Object.keys(resultSet.rows.item(i))[3]],
+                    rating: row[Object.keys(resultSet.rows.item(i))[4]],
+                    photo: row[Object.keys(resultSet.rows.item(i))[5]],
                     ingredients: [],
                   };
   
@@ -169,7 +168,7 @@ export default function App({navigation}) {
                 }
   
                 // Add ingredient to the current recipe
-                const ingredientName = row['Название ингредиента'];
+                const ingredientName = row[Object.keys(resultSet.rows.item(i))[6]];
                 if (ingredientName) {
                   currentRecipe.ingredients.push(ingredientName);
                 }
