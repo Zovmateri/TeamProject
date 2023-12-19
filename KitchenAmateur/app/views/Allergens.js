@@ -4,6 +4,8 @@ import {StyleSheet, View, Text, TextInput, Button, Alert, Pressable, Image} from
 import {OpenDatabase} from '../dbConfig'
 import { getLogin } from '../Storage';
 import {MaterialCommunityIcons, AntDesign,FontAwesome} from '@expo/vector-icons'
+import Checkbox from "expo-checkbox";
+
 
 export default function App({navigation}) {
   const [database, setDatabase] = React.useState(null);
@@ -76,7 +78,7 @@ export default function App({navigation}) {
     <View style={styles.container}>
         <View style={styles.titlesContainer}>
             <Text style={styles.title}>Выбрано</Text>
-            <Text style={styles.title}>Ингредиент</Text>
+            <Text style={styles.title}>Аллерген</Text>
             <Text style={styles.title}>Действия</Text>
         </View>
         <View style={styles.contentContainer}>
@@ -127,7 +129,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: '#fff',
     paddingHorizontal: 20,
-    paddingVertical: 15,
+    paddingVertical: 25,
     flex: 1,
     position: 'relative', // Added relative position to the content container
   },
@@ -156,10 +158,10 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     marginTop: 20,
     marginRight: 20,
-    position: 'absolute', // Positioned absolutely
-    top: 0, // Positioned at the top
-    right: 0, // Positioned at the right
-    zIndex: 1, // Set a higher z-index to overlap the content
+    position: 'absolute', // Stays absolute positioning
+    top: 0, // Top edge aligns with the top of the content container
+    right: 0, // Right edge aligns with the right edge of the content container
+    zIndex: 1, // Overlaps other elements
   },
   addButtonText: {
     color: 'white',

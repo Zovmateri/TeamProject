@@ -46,7 +46,7 @@ export default function App({navigation}) {
       console.log('end third',selectedRecipes)
     }
     fetchData()
-  },[database,allergens ,recipeeAllergens])
+  },[database,allergens ,recipeeAllergens, setRecipeeAllergens])
 
   const getUserAllergenNames = async () => { 
     const temporaryAllergenNames = [];
@@ -104,7 +104,6 @@ export default function App({navigation}) {
       'inner join Аллерген aler on ing.[ID Аллергена] = aler.[ID Аллергена] ' +
       'Where rccont.[ID Рецепта]= ?';
 
-      const allergensSet = new Set(recipeeAllergens);
 
       for (const recipe of selectedRecipes) {
         await new Promise((resolve, reject) => {
@@ -112,13 +111,17 @@ export default function App({navigation}) {
             tx.executeSql( 
               query,[recipe.id], 
               (txObj, resultSet) => {
-                
+                const allergensSet = new Set(recipeeAllergens[recipe.id] || []);
                 for (let i = 0; i < resultSet.rows.length; i++) {
                   allergensSet.add(resultSet.rows.item(i)[Object.keys(resultSet.rows.item(i))[2]])
                 }
                 // Check if recipeeAllergens has anything added
                 if (allergensSet.size > recipeeAllergens.length) {
-                  setRecipeeAllergens(Array.from(allergensSet));
+                  setRecipeeAllergens((prevRecipeeAllergens) => ({
+                    ...prevRecipeeAllergens,
+                    [recipe.id]: Array.from(allergensSet),
+                  }));
+                  resolve();
                 } else {
                   // No more allergens are added, move to the next step 
                   resolve();
@@ -176,19 +179,22 @@ export default function App({navigation}) {
                   currentRecipe.ingredients.push(ingredientName);
                 }
               }
-  
               const recipesWithoutAllergens = recipesWithIngredients.filter((recipe) => {
                 const recipeeAllergenOverlap =
-                  Array.isArray(recipeeAllergens) &&
-                  recipeeAllergens.some((recipeAllergen) => allergens.includes(recipeAllergen));
+                  Array.isArray(recipeeAllergens[recipe.id]) &&
+                  recipeeAllergens[recipe.id].every((recipeAllergen) => allergens.includes(recipeAllergen));
+                console.log(
+                  `Recipe: ${recipe.name}, Recipe Allergens: ${recipeeAllergens[recipe.id]}, Overlap: ${recipeeAllergenOverlap}`
+                );
                 return !recipeeAllergenOverlap;
               });
   
-              const sortedRecipes = recipesWithoutAllergens.sort((a, b) => b.rating - a.rating);
+              //const sortedRecipes = recipesWithoutAllergens.sort((a, b) => b.rating - a.rating);
+              const sortedRecipes = recipesWithoutAllergens.sort((a, b) => a.name.localeCompare(b.name));
               setSelectedRecipes(sortedRecipes);
-              setOriginalRecipes(sortedRecipes);
-              resolve();
-            },
+              setOriginalRecipes(sortedRecipes); 
+              resolve(); 
+            }, 
             (txObj, error) => reject(error)
           );
         });
