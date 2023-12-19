@@ -41,8 +41,7 @@ const Buttons = styled(TouchableOpacity)`
   border-color: #fba806;
   text-shadow: 0 0 0.5em #fba806;
   box-shadow: 0 0 0.5em #fba806;
-  margin-top: 32px;
-  margin-left: 110px;
+  margin: auto;
   border-radius: 10px;
   outline: none;
   transition: background-color 300ms, text-shadow 300ms;
