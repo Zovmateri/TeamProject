@@ -7,7 +7,7 @@ import {OpenDatabase, updateAppDatabase} from '../dbConfig'
 import * as Isaac from 'isaac'
 import bcrypt from 'react-native-bcrypt'
 
-export default function App() {
+export default function App({navigation}) {
   const [name, setName] = React.useState(undefined)
   const [surname,setSurname] = React.useState(undefined);
   const [login,setLogin] = React.useState(undefined);
@@ -129,10 +129,12 @@ export default function App() {
       console.error('Error during registration:', error); 
     }
   };
-  
+  const authorized = () => {
+    return (navigation.navigate('Login'))
+  }
   return (
     <View>
-        <UserRegister login={login} setLogin={setLogin} currentName={name} setCurrentName={setName} surname={surname} setSurname={setSurname} email={email} setEmail={setEmail} password={password} setPassword={setPassword} registerUser={registerUser}/>
+        <UserRegister login={login} setLogin={setLogin} currentName={name} setCurrentName={setName} surname={surname} setSurname={setSurname} email={email} setEmail={setEmail} password={password} setPassword={setPassword} registerUser={registerUser} nav={authorized}/>
         <StatusBar theme='auto' />
     </View>
   );

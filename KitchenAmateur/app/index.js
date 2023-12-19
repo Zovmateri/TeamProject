@@ -1,8 +1,8 @@
 import React from 'react';
-import { AppNavigator } from './routes';
+import { MyTabs } from './routes';
 
 export default function App() {
     return (
-        <AppNavigator />
+        <MyTabs />
     )
 }

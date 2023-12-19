@@ -13,7 +13,11 @@ export default function App({navigation}) {
   const [database, setDatabase] = React.useState(null); // Stores the database connection
   const [Checked, setChecked] = React.useState(false);
 
-
+  // React.useEffect(() => {
+  //   if ((login !== null) && (login !== undefined) ) {
+  //     navigation.navigate('Settings')
+  //   }
+  // },[login])
   React.useEffect(() => {
     OpenDatabase().then((db) => {
       setDatabase(db);
@@ -22,7 +26,7 @@ export default function App({navigation}) {
 
   bcrypt.setRandomFallback((len) => {
     const buf = new Uint8Array(len);
-    return buf.map(() => Math.floor(Isaac.random() * 256));
+    return buf.map(() => Math.floor(Isaac.random() * 256)); 
   });
 
   const loginUser = () => {
@@ -68,9 +72,12 @@ export default function App({navigation}) {
       (error) => console.log('Transaction Error:', error));
     }
   };  
+  const authorized = () => {
+    return (navigation.navigate('Register'))
+  }
   return (
     <View>
-        <UserAuth login={login} setLogin={setLogin} password={password} setPassword={setPassword} authUser={loginUser} Checked={Checked} setChecked={setChecked}/>
+        <UserAuth login={login} setLogin={setLogin} password={password} setPassword={setPassword} authUser={loginUser} Checked={Checked} setChecked={setChecked} nav={authorized}/>
         <StatusBar theme='auto' />
     </View>
   );
