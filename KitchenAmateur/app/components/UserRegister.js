@@ -29,6 +29,7 @@ const Input = styled.TextInput`
   padding-left: 15px;
 `;
 const Buttons = styled(TouchableOpacity)`
+  
   width: 190px;
   height: 38px;
   text-transform: uppercase;
@@ -41,7 +42,7 @@ const Buttons = styled(TouchableOpacity)`
   text-shadow: 0 0 0.5em #fba806;
   box-shadow: 0 0 0.5em #fba806;
   margin-top: 32px;
-  margin-left: 5px;
+  margin-left: 110px;
   border-radius: 10px;
   outline: none;
   transition: background-color 300ms, text-shadow 300ms;
