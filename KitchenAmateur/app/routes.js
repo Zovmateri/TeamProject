@@ -22,7 +22,7 @@ export const MyTabs = () => {
 
     if (login === null || login === undefined) {
         return (
-            <Tab.Navigator initialRouteName='Main' screenOptions={commonScreenOptions} >
+            <Tab.Navigator initialRouteName='Main' screenOptions={commonScreenOptions} tabBar={props => <BottomTabBar {...props} state={{...props.state, routes: props.state.routes.slice(0,2)}}></BottomTabBar>} >
                 <Tab.Screen 
                     name='Main' 
                     component={MainScreen}
@@ -48,6 +48,23 @@ export const MyTabs = () => {
                           />
                         ),
                     }}
+                />
+                <Tab.Screen  
+                    name='Register' 
+                    component={RegisterScreen}
+                    options={{
+                        tabBarIcon: ({ color, focused }) => (
+                          <Image
+                            source={
+                                focused ? 
+                                require('./assets/pics/navIcons/allergenOrange.png') : 
+                                require('./assets/pics/navIcons/allergenGreen.png')
+                            }
+                            style={{ width: 34, height: 34}}
+                          />
+                        ),
+                        
+                      }}
                 />
             </Tab.Navigator>
         )

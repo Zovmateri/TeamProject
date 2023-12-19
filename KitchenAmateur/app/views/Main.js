@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import {StyleSheet, View, Text, TextInput, Button, Alert, Pressable, Image} from 'react-native';
+import {StyleSheet, View, Text, TextInput, Button, Alert, Pressable, Image, ScrollView} from 'react-native';
 import {OpenDatabase} from '../dbConfig'
 import { getLogin } from '../Storage';
 import {MaterialCommunityIcons, AntDesign,FontAwesome} from '@expo/vector-icons'
@@ -228,6 +228,7 @@ export default function App({navigation}) {
   };
   return (
     <View>
+      <ScrollView style={styles.container}>
       <StatusBar theme='auto' />
       <TextInput
         style={styles.searchBar}
@@ -238,12 +239,12 @@ export default function App({navigation}) {
       {selectedRecipes.length > 0 && (
         <View style={{ flexWrap: 'wrap', flexDirection: 'row' }}>
           {selectedRecipes.map((recipe, index) => (
-            <View key={index} style={{ margin: 5, padding: 10, flexDirection: 'column' }}>
+            <View key={index} style={{ margin: 5, padding: 10, flexDirection: 'column', marginLeft: 15 }}>
               <Image source={{ uri: recipe.photo }} style={{ width: 160, height: 250, borderRadius: 25, marginBottom: 2 }} />
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <MaterialCommunityIcons name="face-man" size={15} color="green" style={{ marginRight: 5 }} />
-                  <Text style={{ fontWeight: 'bold', fontSize: 10 }}>{recipe.name}</Text>
+                  <Text style={{ fontWeight: 'bold', fontSize: 10, width: 70, textAlign: 'auto' }}>{recipe.name}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <AntDesign name="staro" size={10} color="green" style={{ marginRight: 5 }} />
@@ -256,6 +257,8 @@ export default function App({navigation}) {
           ))}
         </View>
       )}
+
+      </ScrollView>
     </View>
   );
 }
@@ -270,5 +273,8 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     borderRadius: 50,
     marginTop: 15,
+  },
+  container: {
+    flexDirection: 'column',
   },
 });
