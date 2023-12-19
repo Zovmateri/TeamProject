@@ -202,7 +202,8 @@ export default function App({navigation}) {
           recipe.name.toLowerCase().startsWith(text.toLowerCase()) ||
           recipe.ingredients.some((ingredient) =>
             ingredient.toLowerCase().startsWith(text.toLowerCase())
-          )
+          ) ||
+          recipe.instructions.toLowerCase().includes(text.toLowerCase())
       );
       const filteredRecipesWithoutAllergens =
         allergens.length > 0
@@ -241,7 +242,7 @@ export default function App({navigation}) {
         <View style={{ flexWrap: 'wrap', flexDirection: 'row' }}>
           {selectedRecipes.map((recipe, index) => (
             <View key={index} style={{ margin: 5, padding: 10, flexDirection: 'column' }}>
-              <Image source={{ uri: recipe.photo }} style={{ width: 150, height: 150, borderRadius: 25, marginBottom: 2 }} />
+              <Image source={{ uri: recipe.photo }} style={{ width: 160, height: 250, borderRadius: 25, marginBottom: 2 }} />
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <MaterialCommunityIcons name="face-man" size={15} color="green" style={{ marginRight: 5 }} />

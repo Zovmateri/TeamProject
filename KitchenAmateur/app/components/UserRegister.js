@@ -75,6 +75,7 @@ export const UserRegister = ({
   password,
   setPassword,
   registerUser,
+  nav,
 }) => {
   return (
     <View style={style.body}>
@@ -122,7 +123,7 @@ export const UserRegister = ({
         </Buttons>
         <Text
           style={style.toRegistr}
-          onPress={() => console.log("Navigate to registration")}
+          onPress={nav}
         >
           Авторизироваться
         </Text>

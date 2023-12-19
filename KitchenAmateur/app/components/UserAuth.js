@@ -24,6 +24,7 @@ export const UserAuth = ({
   authUser,
   Checked,
   setChecked,
+  nav,
 }) => {
   return (
     <View style={style.body}>
@@ -60,7 +61,7 @@ export const UserAuth = ({
         </Text>
         <Text
           style={style.toRegistr}
-          onPress={() => console.log("Navigate to registration")}
+          onPress={nav}
         >
           Перейти на форму регистрации
         </Text>
