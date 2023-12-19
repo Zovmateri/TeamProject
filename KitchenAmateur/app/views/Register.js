@@ -23,6 +23,7 @@ export default function App({navigation}) {
       setDatabase(db);
     })
   }, []);
+
   const IsLoginUnique = () => {
     return new Promise((resolve, reject) => {
       database.transaction(tx => {

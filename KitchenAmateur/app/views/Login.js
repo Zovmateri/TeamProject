@@ -13,11 +13,7 @@ export default function App({navigation}) {
   const [database, setDatabase] = React.useState(null); // Stores the database connection
   const [Checked, setChecked] = React.useState(false);
 
-  // React.useEffect(() => {
-  //   if ((login !== null) && (login !== undefined) ) {
-  //     navigation.navigate('Settings')
-  //   }
-  // },[login])
+
   React.useEffect(() => {
     OpenDatabase().then((db) => {
       setDatabase(db);

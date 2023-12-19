@@ -226,9 +226,6 @@ export default function App({navigation}) {
       setSelectedRecipes(filteredRecipesWithoutAllergens);
     }
   };
-  
-  
-  
   return (
     <View>
       <StatusBar theme='auto' />
