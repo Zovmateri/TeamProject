@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import {StyleSheet, View, Text, TextInput, Button, Alert, Pressable, Image, ScrollView} from 'react-native';
+import {StyleSheet, View, Text, TextInput, Button, Alert, Pressable, Image, ScrollView, Platform} from 'react-native';
 import {OpenDatabase} from '../dbConfig'
 import { getLogin } from '../Storage';
 import {MaterialCommunityIcons, AntDesign,FontAwesome} from '@expo/vector-icons'
@@ -13,6 +13,8 @@ export default function App({navigation}) {
   const [searchText, setSearchText] = React.useState('');
   const [originalRecipes, setOriginalRecipes] = React.useState([]);
   const login = getLogin();
+  const [marginn,setMarginn] = React.useState(0);
+  const [leftmarginn,setLeftMarginn] = React.useState(0);
 
   
   React.useEffect(() => {
@@ -27,6 +29,7 @@ export default function App({navigation}) {
       console.log('end first:',allergens)
     }
     fetchData()
+    marginForOS()
   },[database])
 
   React.useEffect(() => {
@@ -226,6 +229,17 @@ export default function App({navigation}) {
       setSelectedRecipes(filteredRecipesWithoutAllergens);
     }
   };
+
+  const marginForOS = () => {
+    if (Platform.OS === 'android') {
+      setMarginn(5);
+      setLeftMarginn(15);
+    } else if (Platform.OS === 'ios') {
+      setMarginn(5);
+      setLeftMarginn(0);
+    }
+  }
+  
   return (
     <View>
       <ScrollView style={styles.container}>
@@ -239,7 +253,7 @@ export default function App({navigation}) {
       {selectedRecipes.length > 0 && (
         <View style={{ flexWrap: 'wrap', flexDirection: 'row' }}>
           {selectedRecipes.map((recipe, index) => (
-            <View key={index} style={{ margin: 5, padding: 10, flexDirection: 'column', marginLeft: 15 }}>
+            <View key={index} style={{ margin: marginn, padding: 10, flexDirection: 'column', marginLeft: leftmarginn }}>
               <Image source={{ uri: recipe.photo }} style={{ width: 160, height: 250, borderRadius: 25, marginBottom: 2 }} />
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
