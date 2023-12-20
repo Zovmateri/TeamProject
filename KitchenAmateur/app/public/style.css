@@ -1,7 +1,3 @@
-:root{
-    --index: calc(1vw + 1vh);
-    --transition: 1.5s cubic-bezier(0.05,0.5,0,1);
-}
 .body{
     background-color: white;
     height: 100%;
@@ -106,5 +102,52 @@
     height: 50px;
     justify-content: center;
     align-items: center;
+}
+/* ----------------- End ----------------- */
+/* ----------------- Main menu with SearchBar ----------------- */
+.searchBar{
+    height: 40px;
+    width: 380px;
+    align-self: center;
+    border-width: 1px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    border-radius: 50px;
+ }
+ .container{
+    flex-direction: column;
+ }
+ .recipesView{
+    flex-wrap: wrap;
+    flex-direction: row;
+ }
+ .recipe{
+    flex-direction: column;
+    margin: 4px;
+ }
+ .recipeImage{
+  width: 160px;
+  height: 250px;
+  border-radius: 25px;
+  margin-bottom: 2px;
+ }
+ .recipeDesc{
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+ }
+ .recipeNameContain{
+    flex-direction: row;
+  align-items: center;
+}
+.recipeName{
+    font-Weight: bold;
+    font-Size: 10px;
+    width: 70px;
+    text-Align: auto;
+ }
+.marginRight{
+    margin-Right: 5;
 }
 /* ----------------- End ----------------- */
