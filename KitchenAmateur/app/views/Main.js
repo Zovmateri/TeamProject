@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import {StyleSheet, View, Text, TextInput, Button, Alert, Pressable, Image, ScrollView, Platform} from 'react-native';
+import {StyleSheet, View, Text, TextInput, Button, Alert, Pressable, Image, ScrollView, Platform, ActivityIndicator} from 'react-native';
 import {OpenDatabase} from '../dbConfig'
 import { getLogin } from '../Storage';
 import {MaterialCommunityIcons, AntDesign,FontAwesome} from '@expo/vector-icons'
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 
 export default function App({navigation}) {
   const [database, setDatabase] = React.useState(null);
@@ -16,11 +17,12 @@ export default function App({navigation}) {
   const [marginn,setMarginn] = React.useState(0);
   const [leftmarginn,setLeftMarginn] = React.useState(0);
 
-  
+  const isFocused = useIsFocused();
+
   React.useEffect(() => {
     OpenDatabase().then((db) => { 
       setDatabase(db);
-    })
+    }) 
   }, []); 
    
   React.useEffect(() => {
@@ -30,7 +32,7 @@ export default function App({navigation}) {
     }
     fetchData()
     marginForOS()
-  },[database])
+  },[database,isFocused]) 
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -40,13 +42,13 @@ export default function App({navigation}) {
     fetchData()
   },[database, allergens,selectedRecipes])  
 
-  React.useEffect(() => {
+  React.useEffect(() => { 
     const fetchData = async () => {
       await getAllRecipees();
       console.log('end third',selectedRecipes)
     }
     fetchData()
-  },[database,allergens ,recipeeAllergens, setRecipeeAllergens])
+  },[database,allergens ,recipeeAllergens])
 
   const getUserAllergenNames = async () => { 
     const temporaryAllergenNames = [];
@@ -248,37 +250,36 @@ export default function App({navigation}) {
   
   return (
     <View>
-      <ScrollView style={styles.container}>
-      <StatusBar theme='auto' />
-      <TextInput
-        style={styles.searchBar}
-        placeholder="Поиск..."
-        onChangeText={handleSearchTextChange}
-        value={searchText}
-      />
-      {selectedRecipes.length > 0 && (
-        <View style={{ flexWrap: 'wrap', flexDirection: 'row' }}>
-          {selectedRecipes.map((recipe, index) => (
-            <View key={index} style={{ margin: marginn, padding: 10, flexDirection: 'column', marginLeft: leftmarginn }}>
-              <Image source={{ uri: recipe.photo }} style={{ width: 160, height: 250, borderRadius: 25, marginBottom: 2 }} />
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <MaterialCommunityIcons name="face-man" size={15} color="green" style={{ marginRight: 5 }} />
-                  <Text style={{ fontWeight: 'bold', fontSize: 10, width: 70, textAlign: 'auto' }}>{recipe.name}</Text>
+        <ScrollView style={styles.container}>
+          <StatusBar theme="auto" />
+          <TextInput
+            style={styles.searchBar}
+            placeholder="Поиск..."
+            onChangeText={handleSearchTextChange}
+            value={searchText}
+          />
+          {selectedRecipes.length > 0 && (
+            <View style={{ flexWrap: 'wrap', flexDirection: 'row' }}>
+              {selectedRecipes.map((recipe, index) => (
+                <View key={index} style={{ margin: marginn, padding: 10, flexDirection: 'column', marginLeft: leftmarginn }}>
+                  <Image source={{ uri: recipe.photo }} style={{ width: 160, height: 250, borderRadius: 25, marginBottom: 2 }} />
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <MaterialCommunityIcons name="face-man" size={15} color="green" style={{ marginRight: 5 }} />
+                      <Text style={{ fontWeight: 'bold', fontSize: 10, width: 70, textAlign: 'auto' }}>{recipe.name}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <AntDesign name="staro" size={10} color="green" style={{ marginRight: 5 }} />
+                      <Text>{recipe.rating} </Text>
+                      <FontAwesome name="comment-o" size={10} color="green" style={{ marginRight: 5 }} />
+                      <Text>{recipe.rating} </Text>
+                    </View>
+                  </View>
                 </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <AntDesign name="staro" size={10} color="green" style={{ marginRight: 5 }} />
-                  <Text>{recipe.rating} </Text>
-                  <FontAwesome name="comment-o" size={10} color="green" style={{ marginRight: 5 }} />
-                  <Text>{recipe.rating} </Text>
-                </View>
-              </View>
+              ))}
             </View>
-          ))}
-        </View>
-      )}
-
-      </ScrollView>
+          )}
+        </ScrollView>
     </View>
   );
 }

@@ -16,26 +16,29 @@ import { getLogin } from './Storage';
 
 const Tab = createBottomTabNavigator();
 
+
 export const MyTabs = () => {
     
     const login = getLogin();
-
     if (login === null || login === undefined) {
         return (
-            <Tab.Navigator initialRouteName='Main' screenOptions={commonScreenOptions} tabBar={props => <BottomTabBar {...props} state={{...props.state, routes: props.state.routes.slice(0,2)}}></BottomTabBar>} >
+            <Tab.Navigator 
+                initialRouteName='Main' 
+                screenOptions={commonScreenOptions} 
+                tabBar={props => <BottomTabBar {...props} state={{...props.state, routes: props.state.routes.slice(0,2)}}></BottomTabBar>}
+                >
                 <Tab.Screen 
                     name='Main' 
                     component={MainScreen}
                     options={{
                         tabBarIcon: ({ color, focused }) => (
                             <Ionicons name="search-outline" size={34} color={focused ? "#FBA806" : "#00bb03"} />
-                            //<FontAwesome name="search" size={34} color={focused ? "#FBA806" : "#00bb03"} />
                         ),
                       }}
                 />
                 <Tab.Screen
-                    name={'Login'} // Dynamically determines name based on login status
-                    component={LoginScreen} // Dynamically renders component based on login status
+                    name={'Login'}
+                    component={LoginScreen}
                     options={{ 
                         tabBarIcon: ({color,focused}) => (
                             <Image

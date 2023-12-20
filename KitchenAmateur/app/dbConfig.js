@@ -3,7 +3,8 @@ import { Asset } from 'expo-asset';
 import * as SQLITE from 'expo-sqlite';
 
 const FOO = 'foo.sqlite'
-export async function OpenDatabase() {
+// this is to load from assets, no saving
+export async function LoadFromAssets() {
     try {
       const datab = SQLITE.openDatabase(FOO,1);
       datab._db.closeAsync();
@@ -24,20 +25,33 @@ export async function OpenDatabase() {
       return null;
     }
   }
-// export async function OpenDatabase() {
-//   try {
-//     const datab = SQLITE.openDatabase(FOO,1);
-//     datab._db.closeAsync();
-    
-//     const database = SQLITE.openDatabase(FOO,1);
-//     console.log('database: ',database)
-//     console.log('database loaded  successfully!!!') 
-//     return database
-//   } catch (error) {
-//     console.error(error);
-//     return null;
-//   } 
-// }
+  // this saves but doesnt load from db (local only)
+export async function OpenDatabase() {
+  try {
+    const dbDirectory = FileSystem.documentDirectory + 'SQLite/';
+    const dbFilePath = dbDirectory + FOO;
+    if (!(await FileSystem.getInfoAsync(dbDirectory)).exists) {
+      console.log('Creating the SQLite directory');
+      await FileSystem.makeDirectoryAsync(dbDirectory);
+    }
+    if (!(await FileSystem.getInfoAsync(dbFilePath)).exists) {
+      console.log('Database file not found. Downloading...');
+      await FileSystem.downloadAsync(
+        Asset.fromModule(require('./assets/foo.sqlite')).uri,
+        dbFilePath
+      );
+    }
+    const database = SQLITE.openDatabase(FOO);
+    if (database) {
+      console.log('Database opened successfully!');
+    }
+    return database;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+// this deletes the database locally
 export async function deleteDatabase() {
   try {
     const databasePath = FileSystem.documentDirectory + `SQLite/${FOO}`;
