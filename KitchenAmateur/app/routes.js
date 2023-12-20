@@ -9,6 +9,7 @@ import RegisterScreen from './views/Register';
 import HomeScreen from './views/Home';
 import SettingsScreen from './views/Settings'
 import AllergensScreen from './views/Allergens'
+import IngredientScreen from './views/Ingredients'
 import { FontAwesome, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { Image } from 'react-native';
 import { getLogin } from './Storage';
@@ -25,7 +26,7 @@ export const MyTabs = () => {
             <Tab.Navigator 
                 initialRouteName='Main' 
                 screenOptions={commonScreenOptions} 
-                tabBar={props => <BottomTabBar {...props} state={{...props.state, routes: props.state.routes.slice(0,2)}}></BottomTabBar>}
+                tabBar={props => <BottomTabBar {...props} state={{...props.state, routes: props.state.routes.slice(0,3)}}></BottomTabBar>}
                 >
                 <Tab.Screen 
                     name='Main' 
@@ -103,8 +104,8 @@ export const MyTabs = () => {
                       }}
                 />
                 <Tab.Screen 
-                    name='Home' 
-                    component={HomeScreen} 
+                    name='Ingredient' 
+                    component={IngredientScreen} 
                     options={{
                         tabBarIcon: ({ color, focused }) => (
                           <Image

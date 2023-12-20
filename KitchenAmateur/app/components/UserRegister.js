@@ -10,6 +10,34 @@ import {
   useWindowDimensions,
 } from "react-native";
 import style from "../public/style.css";
+import styled from "styled-components";
+
+const Buttons = styled.TouchableOpacity`
+  
+  width: 190px;
+  height: 38px;
+  text-transform: uppercase;
+  font-size: 40px;
+  color: #fba806;
+  background-color: transparent;
+  padding: 8px;
+  border-width: 3px;
+  border-color: #fba806;
+  text-shadow: 0 0 0.5em #fba806;
+  box-shadow: 0 0 0.5em #fba806;
+  margin: auto;
+  border-radius: 10px;
+  outline: none;
+  transition: background-color 300ms, text-shadow 300ms;
+  margin-bottom: 40px;
+`;
+
+const ButtonText = styled.Text`
+  color: green;
+  font-weight: bold;
+  text-align: center;
+`;
+
 
 export const UserRegister = ({
   login,

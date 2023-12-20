@@ -116,6 +116,7 @@ export default function App({navigation}) {
             (txObj, secondResultSet) => {
               console.log('second id is:', secondResultSet.insertId);
               console.log('success!!!!');
+              navigation.navigate('Login')
               resolve();
             },
             (txObj, secondError) => {
