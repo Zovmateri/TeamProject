@@ -41,7 +41,7 @@ export default function App({ navigation }) {
       OpenDatabase().then((db) => {
          setDatabase(db)
       })
-   }, [])
+   }, []) 
 
    React.useEffect(() => {
       const fetchData = async () => {
@@ -65,7 +65,7 @@ export default function App({ navigation }) {
          await getAllRecipees()
          console.log('end third', selectedRecipes)
       }
-      fetchData()
+      fetchData() 
    }, [database, allergens, recipeeAllergens])
 
    const getUserAllergenNames = async () => {
@@ -99,8 +99,16 @@ export default function App({ navigation }) {
                            (allergen) => !allergens.includes(allergen)
                         )
                         if (newAllergens.length > 0) {
-                           setAllergens(newAllergens)
+                           setAllergens((prevAllergens) => [
+                              ...new Set([...prevAllergens, ...newAllergens]),
+                           ]);
                            console.log('first')
+                        } else {
+                           setAllergens((prevAllergens) =>
+                              prevAllergens.filter(
+                                 (allergen) => !temporaryAllergenNames.includes(allergen)
+                              )
+                           );
                         }
 
                         resolve()
@@ -109,7 +117,7 @@ export default function App({ navigation }) {
                         resolve()
                      }
                   },
-                  (txObj, error) => reject(error)
+                  (txObj, error) => reject(error) 
                )
             })
          })
@@ -221,7 +229,7 @@ export default function App({ navigation }) {
                         recipesWithIngredients.filter((recipe) => {
                            const recipeeAllergenOverlap =
                               Array.isArray(recipeeAllergens[recipe.id]) &&
-                              recipeeAllergens[recipe.id].every(
+                              recipeeAllergens[recipe.id].some(
                                  (recipeAllergen) =>
                                     allergens.includes(recipeAllergen)
                               )
