@@ -269,7 +269,7 @@ export default function App({navigation}) {
             <View style={styles.buttons}>
                 {renderDeleteButton()}
                 <Pressable style={styles.addButton} onPress={navigateToAddScreen}>
-                    <Text style={styles.addButtonText}>+ Добавить аллерген</Text>
+                    <Text style={styles.addButtonText}>+ Добавить ингредиент</Text>
                 </Pressable>
             </View>
             <View style={styles.titlesContainer}>
