@@ -14,7 +14,6 @@ export default function App({navigation}) {
   const [allIngredientInfo, setAllIngredientInfo] = React.useState([]);
   const [isAddAllergenModalVisible, setAddAllergenModalVisible] = React.useState(false);
   const [ingrientPlaceHolder, setIngrientPlaceHolder] = React.useState([]);
-  const [unitPlaceHolder, setUnitPlaceHolder] = React.useState([]);
   const [isOverlayVisible, setOverlayVisible] = React.useState(false);
   const [modalDefaultIngredient, setModalDefaultIngredient] = React.useState(null);
   const [modalDefaultUnit, setModalDefaultUnit] = React.useState(null);
@@ -363,10 +362,9 @@ export default function App({navigation}) {
                         }}
                         dropDownStyle={{ backgroundColor: '#fff' }}
                         onSelectItem={(item) => {
-                          setUnitPlaceHolder(item.value),
                           setUnit(item.value)}}
                         onChangeItem={(item) => 
-                            {setUnitPlaceHolder(item.value),
+                            {
                             setUnit(item.value)}
                         }
                     />
@@ -404,7 +402,7 @@ const styles = StyleSheet.create({
       marginBottom: 10,
       marginHorizontal: 5,
       color: '#888',
-      width: 55,
+      width: 63,
     },
     deleteImage: {
         width: 30,
@@ -418,7 +416,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#f2f2f2',
       borderBottomWidth: 1,
       borderColor: '#ccc',
-      paddingHorizontal: 20,
+      paddingHorizontal: 5,
       paddingVertical: 10,
       paddingTop: 20,
       top: 20,
