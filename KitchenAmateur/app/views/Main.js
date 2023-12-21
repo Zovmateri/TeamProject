@@ -291,7 +291,7 @@ export default function App({ navigation }) {
    const marginForOS = () => {
       if (Platform.OS === 'android') {
          setWidthSearchBar(380)
-         setLeftMarginn(18)
+         setLeftMarginn(28)
       } else if (Platform.OS === 'ios') {
         setWidthSearchBar(340)
          setLeftMarginn(13)
