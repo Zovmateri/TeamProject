@@ -33,7 +33,7 @@ export const MyTabs = () => {
                     component={MainScreen}
                     options={{
                         tabBarIcon: ({ color, focused }) => (
-                            <Ionicons name="search-outline" size={34} color={focused ? "#FBA806" : "#00bb03"} />
+                            <Ionicons name="search-outline" size={34} color={focused ? "#00bb03" : "#FBA806"} />
                         ),
                       }}
                 />
@@ -45,8 +45,8 @@ export const MyTabs = () => {
                             <Image
                                 source={
                                     focused ? 
-                                    require('./assets/pics/navIcons/AccountOrange.png') : 
-                                    require('./assets/pics/navIcons/AccountGreen.png')
+                                    require('./assets/pics/navIcons/AccountGreen.png') : 
+                                    require('./assets/pics/navIcons/AccountOrange.png')
                                 }
                                 style={{ width: 34, height: 34}}
                           />
@@ -61,8 +61,8 @@ export const MyTabs = () => {
                           <Image
                             source={
                                 focused ? 
-                                require('./assets/pics/navIcons/allergenOrange.png') : 
-                                require('./assets/pics/navIcons/allergenGreen.png')
+                                require('./assets/pics/navIcons/RegistrGreen.png') : 
+                                require('./assets/pics/navIcons/RegistrOrange.png')
                             }
                             style={{ width: 34, height: 34}}
                           />
@@ -81,8 +81,7 @@ export const MyTabs = () => {
                     component={MainScreen}
                     options={{
                         tabBarIcon: ({ color, focused }) => (
-                            <Ionicons name="search-outline" size={34} color={focused ? "#FBA806" : "#00bb03"} />
-                            //<FontAwesome name="search" size={34} color={focused ? "#FBA806" : "#00bb03"} />
+                            <Ionicons name="search-outline" size={34} color={focused ? "#00bb03" : "#FBA806"} />
                         ),
                       }}
                 />
@@ -94,8 +93,8 @@ export const MyTabs = () => {
                           <Image
                             source={
                                 focused ? 
-                                require('./assets/pics/navIcons/allergenOrange.png') : 
-                                require('./assets/pics/navIcons/allergenGreen.png')
+                                require('./assets/pics/navIcons/allergenGreen.png') : 
+                                require('./assets/pics/navIcons/allergenOrange.png')
                             }
                             style={{ width: 34, height: 34}}
                           />
@@ -111,8 +110,8 @@ export const MyTabs = () => {
                           <Image
                             source={
                                 focused ? 
-                                require('./assets/pics/navIcons/foodOrange.png') : 
-                                require('./assets/pics/navIcons/foodGreen.png')
+                                require('./assets/pics/navIcons/foodGreen.png') : 
+                                require('./assets/pics/navIcons/foodOrange.png')
                             }
                             style={{ width: 34, height: 34}}
                           />
@@ -128,8 +127,8 @@ export const MyTabs = () => {
                             <Image
                                 source={
                                     focused ? 
-                                    require('./assets/pics/navIcons/AccountOrange.png') : 
-                                    require('./assets/pics/navIcons/AccountGreen.png')
+                                    require('./assets/pics/navIcons/AccountGreen.png') : 
+                                    require('./assets/pics/navIcons/AccountOrange.png')
                                 }
                                 style={{ width: 34, height: 34}}
                           />
@@ -144,8 +143,8 @@ export const MyTabs = () => {
                             <Image
                                 source={
                                     focused ? 
-                                    require('./assets/pics/navIcons/AccountOrange.png') : 
-                                    require('./assets/pics/navIcons/AccountGreen.png')
+                                    require('./assets/pics/navIcons/AccountGreen.png') : 
+                                    require('./assets/pics/navIcons/AccountOrange.png')
                                 }
                                 style={{ width: 34, height: 34}}
                           />
@@ -160,8 +159,8 @@ export const MyTabs = () => {
                           <Image
                             source={
                                 focused ? 
-                                require('./assets/pics/navIcons/allergenOrange.png') : 
-                                require('./assets/pics/navIcons/allergenGreen.png')
+                                require('./assets/pics/navIcons/allergenGreen.png') : 
+                                require('./assets/pics/navIcons/allergenOrange.png')
                             }
                             style={{ width: 34, height: 34}}
                           />
