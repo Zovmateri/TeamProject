@@ -18,6 +18,15 @@ export default function App({navigation}) {
     const [ID,setId] = useState(null);
     const login = getLogin();
     const [changes, setChanges] = useState({});
+    const [marginn, setMarginn] = React.useState(0)
+
+    const marginForOS = () => {
+      if (Platform.OS === 'android') {
+         setMarginn(150)
+      } else if (Platform.OS === 'ios') {
+         setMarginn(25)
+      }
+   }
 
     React.useEffect(() => {
         OpenDatabase().then((db) => { 
@@ -30,6 +39,7 @@ export default function App({navigation}) {
             console.log('database')
             GetUserData();
             getUserID();
+            marginForOS();
         }
     },[database,!login])
         
@@ -155,6 +165,60 @@ export default function App({navigation}) {
       console.error(error);
     }
   };
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#fff',
+      padding: 20,
+    },
+    textboxGroup: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 10,
+      },
+    headerText: {
+      fontSize: 24,
+      fontWeight: 'bold',
+    },
+    input: {
+      width: 150,
+      borderWidth: 1,
+      borderColor: '#ccc',
+      padding: 10,
+      marginBottom: 10,
+      marginHorizontal: 10,
+      borderRadius: 10,
+    },
+    inputText: {
+      width: 150,
+      borderWidth: 1,
+      borderColor: '#ccc',
+      padding: 10,
+      marginBottom: 10,
+      marginHorizontal: 10,
+      borderRadius: 10,
+      textAlignVertical: 'center',
+    },
+    save: {
+        borderRadius: 25,
+        backgroundColor: "#FBA806",
+        paddingHorizontal: 30,
+        paddingVertical: 15,
+        fontSize: 15,
+        marginTop: 20,
+    },
+    profileImage: {
+        width: 150,
+        height: 150,
+        marginBottom: 50,
+        marginTop: 100,
+    },
+    exit: {
+        marginTop: marginn,
+    }
+  });
 
   return (
     <View style={styles.container}>
@@ -232,58 +296,5 @@ export default function App({navigation}) {
         >Выйти из аккаунта</Text>
 </View>
   );
+  
 }
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: '#fff',
-      padding: 20,
-    },
-    textboxGroup: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 10,
-      },
-    headerText: {
-      fontSize: 24,
-      fontWeight: 'bold',
-    },
-    input: {
-      width: 150,
-      borderWidth: 1,
-      borderColor: '#ccc',
-      padding: 10,
-      marginBottom: 10,
-      marginHorizontal: 10,
-      borderRadius: 10,
-    },
-    inputText: {
-      width: 150,
-      borderWidth: 1,
-      borderColor: '#ccc',
-      padding: 10,
-      marginBottom: 10,
-      marginHorizontal: 10,
-      borderRadius: 10,
-      textAlignVertical: 'center',
-    },
-    save: {
-        borderRadius: 25,
-        backgroundColor: "#FBA806",
-        paddingHorizontal: 30,
-        paddingVertical: 15,
-        fontSize: 15,
-        marginTop: 20,
-    },
-    profileImage: {
-        width: 150,
-        height: 150,
-        marginBottom: 50,
-        marginTop: 100,
-    },
-    exit: {
-        marginTop: 150,
-    }
-  });
