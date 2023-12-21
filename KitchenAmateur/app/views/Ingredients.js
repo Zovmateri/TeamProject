@@ -13,11 +13,26 @@ export default function App({navigation}) {
   const [ingredientInfo, setIngredientInfo] = React.useState([]);
   const [allIngredientInfo, setAllIngredientInfo] = React.useState([]);
   const [isAddAllergenModalVisible, setAddAllergenModalVisible] = React.useState(false);
-  const [addAllergenSelected, setAddAllergenSelected] = React.useState([]);
+  const [ingrientPlaceHolder, setIngrientPlaceHolder] = React.useState([]);
+  const [unitPlaceHolder, setUnitPlaceHolder] = React.useState([]);
   const [isOverlayVisible, setOverlayVisible] = React.useState(false);
-  const [modalDefault, setModalDefault] = React.useState(null);
+  const [modalDefaultIngredient, setModalDefaultIngredient] = React.useState(null);
+  const [modalDefaultUnit, setModalDefaultUnit] = React.useState(null);
+  const [unit,setUnit] = React.useState(null);
+  const [amount,setAmount] = React.useState(null);
+
   const [open, setOpen] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
   const login = getLogin();
+  const [items, setItems] = React.useState([
+    {label: 'шт.', value: '1'},
+    {label: 'г.', value: '2'},
+    {label: 'кг.', value: '3'},
+    {label: 'л.', value: '4'},
+    {label: 'мл.', value: '5'},
+    {label: 'чайн. л.', value: '6'},
+    {label: 'стол. л.', value: '7'}
+  ]);
 
   
   React.useEffect(() => {
@@ -28,24 +43,25 @@ export default function App({navigation}) {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      await getUserAllergenNames();
+      await getUserIngredientNames();
       console.log('user allergens:',ingredientInfo) 
-      await getAllAllergens();
+      await getAllIngredients();
     }
     fetchData()
   },[database]) 
 
 
    
-  const getUserAllergenNames = async () => { 
+  const getUserIngredientNames = async () => { 
     const ingredientData = [];
 
     if (database && login) {
       const query =
-      'SELECT ia.Ингредиент, ia.Количество, ia.[Единица измерения] ' +
-      'FROM [Ингредиент в наличии] ia ' +
+      'SELECT ia.Ингредиент, aa.[Название ингредиента], ia.Количество, ia.[Единица измерения] ' +  
+      'FROM [Ингредиент в наличии] ia ' + 
+      'JOIN [Ингредиент] aa on ia.Ингредиент = aa.[ID Ингредиента] ' +
       'JOIN [Личные данные] ld ON ld.[ID Пользователя] = ia.[Пользователь] ' +
-      'WHERE ld.[Логин] = ?';
+      'WHERE ld.[Логин] = ?;'
       await new Promise((resolve, reject) => {
         database.transaction((tx) => {
           tx.executeSql(
@@ -56,9 +72,10 @@ export default function App({navigation}) {
               if (rows && rows.length > 0) {
                 for (let i = 0; i < rows.length; i++) {
                   const ingredient = {
-                    ingredient: rows.item(i)[Object.keys(resultSet.rows.item(i))[0]],
-                    amount: rows.item(i)[Object.keys(resultSet.rows.item(i))[1]],
-                    unit: rows.item(i)[Object.keys(resultSet.rows.item(i))[2]],
+                    id: rows.item(i)[Object.keys(resultSet.rows.item(i))[0]],
+                    ingredient: rows.item(i)[Object.keys(resultSet.rows.item(i))[1]],
+                    amount: rows.item(i)[Object.keys(resultSet.rows.item(i))[2]],
+                    unit: rows.item(i)[Object.keys(resultSet.rows.item(i))[3]],
                     selected: false,
                   };
                   if (!ingredientData.includes(ingredient)) {
@@ -84,13 +101,19 @@ export default function App({navigation}) {
       setIngredientInfo([])
     }
   }
-  const getAllAllergens = async () => { 
+  const getAllIngredients = async () => { 
     const allIngredientData = [];
 
     if (database && login) {
         const query =
-            'SELECT ia.Ингредиент, ia.Количество, ia.[Единица измерения] ' +
-            'FROM [Ингредиент в наличии] ia where ia.Ингредиент not in (select aa.Ингредиент from [Ингредиент в наличии] aa where aa.Пользователь = (select [ID Пользователя] FROM [Личные данные] WHERE [Логин] = ?))'
+            'SELECT  ab.[ID Ингредиента], ab.[Название ингредиента] ' +
+            'FROM Ингредиент ab ' +
+            'WHERE NOT EXISTS ( ' +
+                'SELECT 1 ' +
+                'FROM [Ингредиент в наличии] ia ' +
+                'JOIN [Личные данные] ld ON ia.Пользователь = ld.[ID Пользователя] ' +
+                'WHERE ab.[ID Ингредиента] = ia.[Ингредиент] AND ld.[Логин] = ? ' +
+            ');'
       await new Promise((resolve, reject) => {
         database.transaction((tx) => {
           tx.executeSql(
@@ -101,9 +124,8 @@ export default function App({navigation}) {
               if (rows && rows.length > 0) {
                 for (let i = 0; i < rows.length; i++) {
                     const ingredient = {
-                        ingredient: rows.item(i)[Object.keys(resultSet.rows.item(i))[0]],
-                        amount: rows.item(i)[Object.keys(resultSet.rows.item(i))[1]],
-                        unit: rows.item(i)[Object.keys(resultSet.rows.item(i))[2]],
+                        id: rows.item(i)[Object.keys(resultSet.rows.item(i))[0]],
+                        ingredient: rows.item(i)[Object.keys(resultSet.rows.item(i))[1]],
                         selected: false,
                       };
                   if (!allIngredientData.includes(ingredient)) { 
@@ -130,11 +152,12 @@ export default function App({navigation}) {
     }
   }
 
-  const deleteUsersAllergen = async (deletedIngredient) => {
+  const deleteUsersIngredient = async (deletedIngredient) => {
     try {
+      let currentIngredientInfo = ingredientInfo;
       if (database && login) {
         // Find the allergen index by name
-        const index = deletedIngredient.ingredient;
+        const index = deletedIngredient.id;
         console.log('index',index);
 
         const query = "DELETE FROM [Ингредиент в наличии] " + "WHERE [Пользователь] = (SELECT [ID Пользователя] FROM [Личные данные] WHERE [Логин] = ?) " + "AND [Ингредиент] = ?";
@@ -149,7 +172,7 @@ export default function App({navigation}) {
             console.log('User allergens after deletion:', newIngredientsInfo);
             
         })
-        await getUserAllergenNames();
+        await getUserIngredientNames();
       }
     } catch (error) {
       console.error(error);
@@ -157,42 +180,42 @@ export default function App({navigation}) {
   };
   
 // fix add ingredient query
-  const addUserAllergen = async (addedAllergen) => {
+  const addUserIngredient = async (addedIngredient) => {
     try {
         let userId
       if (database && login) {
-        const getUserIdQuery = 'INSERT INTO [Ингредиент в наличии] ([Пользователь], [Ингредиент], [Количество], [Единица измерения]) ' +
-        'VALUES (?, ?, ?, ?)'
+        const getUserIdQuery = 'SELECT [ID Пользователя] FROM [Личные данные] WHERE [Логин] = ?;'
         await database.transaction((tx) => {
             tx.executeSql(getUserIdQuery, [login],
                     (txObj,resultSet) => {
                         userId = resultSet.rows.item(0)[Object.keys(resultSet.rows.item(0))[0]];
-                        console.log('userid',userId)
                     }
                 );
         })  
-        const allergenIndex = addedAllergen.id
-        console.log('index:',allergenIndex)
-        const insertAllergenQuery = 'INSERT INTO [Аллерген пользователя] ([ID Пользователя], [ID Аллергена]) VALUES (?, ?);';
-        await database.transaction((tx) => {
-            tx.executeSql(insertAllergenQuery, [userId, allergenIndex]);
-        })    
-        // Update state with the new allergens
-        // Update state with the new allergens
-        setAllergenInfo((prevAllergenInfo) => [...prevAllergenInfo,addedAllergen]);
-        await getUserAllergenNames();
-        await getAllAllergens();
+        if (amount !== null && unit !== null && addedIngredient.id !== null) {
+            const ingredientIndex = addedIngredient.id
+          console.log('index:',ingredientIndex)
+          const insertIngredientQuery = 'INSERT INTO [Ингредиент в наличии] ([Пользователь], [Ингредиент], [Количество], [Единица измерения]) ' +
+          'VALUES (?, ?, ?, ?)';
+          await database.transaction((tx) => {
+              tx.executeSql(insertIngredientQuery, [userId, ingredientIndex,unit,amount]);
+          })
+          setAmount(null)    
+          setIngredientInfo((prevIngredientInfo) => [...prevIngredientInfo,addedIngredient]);
+          await getUserIngredientNames();
+          await getAllIngredients();
+        } else {Alert.alert('Ошибка', 'Введите данные для добавление')}
       } 
     } catch (error) {
       console.error(error);
     }
   };
   
-    const handleCheckboxChange = (allergenId) => {
+    const handleCheckboxChange = (ingredientId) => {
         // Toggle the checkbox state
         setIngredientInfo((prevIngredientInfo) =>
         prevIngredientInfo.map((ingredient) =>
-        ingredient.name === allergenId
+        ingredient.id === ingredientId
             ? { ...ingredient, selected: !ingredient.selected }
             : ingredient
         )
@@ -208,7 +231,7 @@ export default function App({navigation}) {
               style={styles.deleteButton}
               onPress={() => {
                 selectedAllergens.forEach((selectedAllergen) => {
-                  deleteUsersAllergen(selectedAllergen);
+                  deleteUsersIngredient(selectedAllergen);
                 });
               }}
             >
@@ -232,8 +255,8 @@ export default function App({navigation}) {
     };
 
     const handleAddAllergen = () => {
-        console.log('allergen:',getAllergenInfoById(addAllergenSelected))
-        addUserAllergen(getAllergenInfoById(addAllergenSelected))
+        console.log('allergen:',getAllergenInfoById(ingrientPlaceHolder))
+        addUserIngredient(getAllergenInfoById(ingrientPlaceHolder))
         closeAddAllergenModal();
     };
     const getAllergenInfoById = (allergenId) => {
@@ -252,7 +275,7 @@ export default function App({navigation}) {
             </View>
             <View style={styles.titlesContainer}>
             <Text style={styles.title}>Выбрано</Text>
-            <Text style={styles.title}>Ингридиентов</Text>
+            <Text style={styles.title}>Ингридиент</Text>
             <Text style={styles.title}>Количество</Text>
             <Text style={styles.title}>Единица измерения</Text>
             <Text style={styles.title}>Действия</Text>
@@ -267,8 +290,8 @@ export default function App({navigation}) {
                 />
                 <Text style={styles.allergenText}>{ingredient.ingredient}</Text>
                 <Text style={styles.allergenText}>{ingredient.amount}</Text>
-                <Text style={styles.allergenText}>{ingredient.unit}</Text>
-                <Pressable onPress={() => deleteUsersAllergen(ingredient)} style={styles.removeButton}>
+                <Text style={styles.allergenTextUnit}>{ingredient.unit}</Text>
+                <Pressable onPress={() => deleteUsersIngredient(ingredient)} style={styles.removeButton}>
                     <AntDesign name="delete" size={24} color="red" />
                 </Pressable>
                 </View>
@@ -288,18 +311,63 @@ export default function App({navigation}) {
                         onOpen={() => setOpen(true)}
                         onClose={() => setOpen(false)}
                         open={open}
-                        items={allIngredientInfo.map((ingredient) => ({ label: ingredient.name, value: ingredient.unit }))}
-                        defaultValue={modalDefault}
-                        placeholder="Выберите аллерген"
-                        containerStyle={{ height: 40, marginBottom: 20, width: 250 }}
-                        style={{ backgroundColor: '#fafafa' }} 
+                        items={allIngredientInfo.map((ingredient) => ({ label: ingredient.ingredient, value: ingredient.id }))}
+                        setValue={setModalDefaultIngredient}
+                        value={modalDefaultIngredient}
+                        placeholder="Ингредиент"
+                        containerStyle={{ height: 40, marginBottom: 20, width: 250}}
+                        style={{ 
+                          backgroundColor: '#fafafa',
+                          zIndex: 10,
+                         }} 
+                        itemStyle={{ 
+                            justifyContent: 'flex-start'
+                        }}
+                        dropDownStyle={{ backgroundColor: '#fff' }}
+                        onSelectItem={(item) => setIngrientPlaceHolder(item.value)}
+                        onChangeItem={(item) => 
+                          setIngrientPlaceHolder(item.value)
+                        }
+                    />
+                    <View style={modalStyles.modalCount}>
+                      <TextInput
+                        style={{
+                          borderColor: '#000',
+                          borderWidth: 1,
+                          padding: 10,
+                          height: 48,
+                          width: 250,
+                          borderRadius: 8,
+                          marginBottom: 10,
+                          backgroundColor: '#fafafa',
+                        }}
+                        placeholder="Единица измерения"
+                        onChangeText={(amount) => setAmount(amount)}
+                        />
+                    </View>
+                    <DropDownPicker
+                        onOpen={() => setOpen2(true)}
+                        onClose={() => setOpen2(false)}
+                        open={open2}
+                        items={items}
+                        setValue={setModalDefaultUnit}
+                        value={modalDefaultUnit}
+                        placeholder="Мера"
+                        containerStyle={{ height: 40, marginBottom: 40, width: 250}}
+                        style={{ 
+                          backgroundColor: '#fafafa',
+                          zIndex: 20,
+                         }} 
                         itemStyle={{ 
                             justifyContent: 'flex-start', 
                         }}
                         dropDownStyle={{ backgroundColor: '#fff' }}
-                        onSelectItem={(item) => setAddAllergenSelected(item.value)}
-                        onChangeItem={(item) => {
-                            setAddAllergenSelected(item.value), setModalDefault(item.label)}
+                        onSelectItem={(item) => {
+                          setUnitPlaceHolder(item.value),
+                          setUnit(item.value)}}
+                        onChangeItem={(item) => 
+                            {setUnitPlaceHolder(item.value),
+                            setUnit(item.value)}
                         }
                     />
                     <View style={modalStyles.modalButtons}>
@@ -318,7 +386,6 @@ export default function App({navigation}) {
         {isOverlayVisible && <View style={modalStyles.overlay} />}
     </View>
   );
-  
 }
 const styles = StyleSheet.create({
     container: {
@@ -373,13 +440,19 @@ const styles = StyleSheet.create({
       marginBottom: 10,
     },
     allergenText: {
-      fontSize: 16,
+      fontSize: 10,
+      width: 50,
+      marginLeft: 30,
+    },
+    allergenTextUnit: {
+      marginRight: 45,
+      fontSize: 10,
     },
     checkbox: {
         width: 20,
         height: 20,
         marginRight: 10,
-        marginLeft: 25,
+        marginLeft: 10,
       },
     removeButton: {
       fontSize: 14,
@@ -419,7 +492,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
   });
-  const modalStyles = StyleSheet.create({
+const modalStyles = StyleSheet.create({
     overlay: {
         ...StyleSheet.absoluteFillObject,
         backgroundColor: 'rgba(200,200,200,0.8)', // Adjust the transparency level of the overlay
@@ -427,7 +500,7 @@ const styles = StyleSheet.create({
     modalContainer: {
       flex: 1,
       justifyContent: 'flex-start',
-      marginTop: 300,
+      marginTop: 250,
       alignItems: 'center',
     },
     modalContent: {
@@ -445,6 +518,9 @@ const styles = StyleSheet.create({
       justifyContent: 'space-between',
       alignItems: 'flex-start',
       marginTop: 10,
+    },
+    modalCount: {
+      flexDirection: 'row',
     },
     modalButton1: {
       padding: 10,

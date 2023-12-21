@@ -172,17 +172,17 @@ export default function App({navigation}) {
                     }
                 );
         })  
-        const allergenIndex = addedAllergen.id
-        console.log('index:',allergenIndex)
-        const insertAllergenQuery = 'INSERT INTO [Аллерген пользователя] ([ID Пользователя], [ID Аллергена]) VALUES (?, ?);';
-        await database.transaction((tx) => {
-            tx.executeSql(insertAllergenQuery, [userId, allergenIndex]);
-        })    
-        // Update state with the new allergens
-        // Update state with the new allergens
-        setAllergenInfo((prevAllergenInfo) => [...prevAllergenInfo,addedAllergen]);
-        await getUserAllergenNames();
-        await getAllAllergens();
+        if (addedAllergen.id !== undefined && addedAllergen.id !== null) {
+          const allergenIndex = addedAllergen.id
+          console.log('index:',allergenIndex)
+          const insertAllergenQuery = 'INSERT INTO [Аллерген пользователя] ([ID Пользователя], [ID Аллергена]) VALUES (?, ?);';
+          await database.transaction((tx) => {
+              tx.executeSql(insertAllergenQuery, [userId, allergenIndex]);
+          })    
+          setAllergenInfo((prevAllergenInfo) => [...prevAllergenInfo,addedAllergen]);
+          await getUserAllergenNames();
+          await getAllAllergens();  
+        } else {Alert.alert('Ошибка', 'Введите данные для добавление')}
       } 
     } catch (error) {
       console.error(error);
@@ -238,8 +238,12 @@ export default function App({navigation}) {
         closeAddAllergenModal();
     };
     const getAllergenInfoById = (allergenId) => {
-        const allergen = allAllergenInfo.find((item) => item.id === allergenId);
-        return allergen;
+          const allergen = allAllergenInfo.find((item) => item.id === allergenId);
+          if (allergen !== undefined) {
+            return allergen;
+          } else {
+            return Alert.alert('Ошибка', 'Введите данные для добавление')
+          }
       };
       
   //-----------------------------------------------------------------------------------
@@ -289,7 +293,8 @@ export default function App({navigation}) {
                         onClose={() => setOpen(false)}
                         open={open}
                         items={allAllergenInfo.map((allergen) => ({ label: allergen.name, value: allergen.id }))}
-                        defaultValue={modalDefault}
+                        setValue={setModalDefault}
+                        value={modalDefault}
                         placeholder="Выберите аллерген"
                         containerStyle={{ height: 40, marginBottom: 20, width: 250 }}
                         style={{ backgroundColor: '#fafafa' }} 
@@ -318,7 +323,6 @@ export default function App({navigation}) {
         {isOverlayVisible && <View style={modalStyles.overlay} />}
     </View>
   );
-  
 }
 const styles = StyleSheet.create({
     container: {
@@ -418,7 +422,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
   });
-  const modalStyles = StyleSheet.create({
+const modalStyles = StyleSheet.create({
     overlay: {
         ...StyleSheet.absoluteFillObject,
         backgroundColor: 'rgba(200,200,200,0.8)', // Adjust the transparency level of the overlay
