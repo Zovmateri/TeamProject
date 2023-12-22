@@ -56,14 +56,13 @@ export const UserAuth = ({
               color={Checked ? "#FBA806" : undefined}
             />
           </View>
-        <Text onPress={authUser} style={style.enter}>
+        <Text onPress={authUser} style={[style.buttonGlow,style.enter]}>
           Войти
         </Text>
         <Text
           style={style.toRegistr}
-          onPress={nav}
-        >
-          Перейти на форму регистрации
+          onPress={nav}>
+          Зарегистрироваться
         </Text>
       </View>
       </ImageBackground>

@@ -32,29 +32,39 @@
     font-weight: 200; 
 }
 .inputReg{
-    width: 190px;
+    width: 220px;
     height: 50px;
     border-radius: 30px;
     border: 2px solid #FBA806;
     background-color: rgba(255, 255, 255, 0.603);
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     font-size: 15px;
     align-self: center;
     padding: 0px 18px 0px 18px;
     font-weight: 200; 
 }
+.registration{
+    width: 200px;
+    height: 40px;
+    font-size: 14px;
+    margin-top: 10px;
+    border-radius:20px;
+}
 .enter{
     width: 200px;
     height: 60px;
-    text-transform: uppercase;
     font-size: 32px;
+    border-radius:30px;
+}
+.buttonGlow{
+    text-transform: uppercase;
     color:#00bb03;
+    font-weight: 200;
     background-color: transparent;
-    border: #00bb03 3px solid;
+    border: #00bb03 2px solid;
     text-shadow: 0 0 8px #00bb03;
     box-shadow: 0 0 8px #00bb03;
-    border-radius:30px;
     align-self: center;
     text-align: center;
     align-items:center;
@@ -68,6 +78,11 @@
     align-self: center;
     text-align: center;
     padding-top: 15%;
+}
+.toAuthr{
+    align-self: center;
+    text-align: center;
+    padding-top: 10%;
 }
 /* ----------------- End ----------------- */
 /* ----------------- Checkbox "remember password" ----------------- */

@@ -94,11 +94,11 @@ export const UserRegister = ({
           required
           last
         />
-        <Buttons onPress={registerUser}>
-          <ButtonText>Зарегистрироваться</ButtonText>
-        </Buttons>
+        <Text onPress={registerUser} style={[style.buttonGlow, style.registration]}>
+          Зарегистрироваться
+          </Text>
         <Text
-          style={style.toRegistr}
+          style={style.toAuthr}
           onPress={nav}
         >
           Авторизироваться
