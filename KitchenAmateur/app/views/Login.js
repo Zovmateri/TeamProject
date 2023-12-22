@@ -29,57 +29,58 @@ export default function App({navigation}) {
 
   const loginUser = () => {
 
-    setLoading(true);
-    setLoadingProgress(10);
-
-    console.log('login:', login);
-    console.log('password:', password);
-    if (database) {
-      setLoadingProgress(20);
-      console.log('database is running');
-      console.log('database info:',database)
-      database.transaction((tx) => {
-        setLoadingProgress(30);
-        tx.executeSql(
-          'select [Хэш пароля] from [Личные данные] where Логин = (?);',
-          [login],
-          (txObj, resultSet) => {
-            setLoadingProgress(50);
-            const rows = resultSet.rows;
-            console.log('Query Result:', rows); 
-  
-            if (rows && rows.length > 0) {
-              hashedPassword = rows.item(0)[Object.keys(rows.item(0))[0]];
-              console.log('hashedPassword:', hashedPassword);
-              setLoadingProgress(70);
-  
-              if (hashedPassword !== null) {
-                isPasswordValid = bcrypt.compareSync(password, hashedPassword);
-                console.log('isPasswordValid:', isPasswordValid);
-                setLoadingProgress(90);
-  
-                if (isPasswordValid) {
-                  setLoginState(login);
-                  console.log('Welcome user');
-                  setLoading(false);
-                  setLoadingProgress(100);
-                  navigation.navigate('Main')
+    if(login !== null && password !== null && login !== undefined && password !== undefined) {
+      setLoading(true);
+      setLoadingProgress(10);
+      console.log('login:', login);
+      console.log('password:', password);
+      if (database) {
+        setLoadingProgress(20);
+        console.log('database is running');
+        console.log('database info:',database)
+        database.transaction((tx) => {
+            setLoadingProgress(30);
+            tx.executeSql(
+              'select [Хэш пароля] from [Личные данные] where Логин = (?);',
+              [login],
+              (txObj, resultSet) => {
+                setLoadingProgress(50);
+                const rows = resultSet.rows;
+                console.log('Query Result:', rows); 
+      
+                if (rows && rows.length > 0) {
+                  hashedPassword = rows.item(0)[Object.keys(rows.item(0))[0]];
+                  console.log('hashedPassword:', hashedPassword);
+                  setLoadingProgress(70);
+      
+                  if (hashedPassword !== null) {
+                    isPasswordValid = bcrypt.compareSync(password, hashedPassword);
+                    console.log('isPasswordValid:', isPasswordValid);
+                    setLoadingProgress(90);
+      
+                    if (isPasswordValid) {
+                      setLoginState(login);
+                      console.log('Welcome user');
+                      setLoading(false);
+                      setLoadingProgress(100);
+                      navigation.navigate('Main')
+                    } else {
+                      console.log('Incorrect password');
+                      Alert.alert('Ошибка', 'Не правильный пароль!!');
+                    }
+                  } else {
+                    console.log('Password is null');
+                  }
                 } else {
-                  console.log('Incorrect password');
-                  Alert.alert('Ошибка', 'Не правильный пароль!!');
+                  console.log('No rows returned');
                 }
-              } else {
-                console.log('Password is null');
-              }
-            } else {
-              console.log('No rows returned');
-            }
-          },
-          (txObj, error) => console.log('Query Error:', error)
-        );
-      },
-      (error) => console.log('Transaction Error:', error));
-    }
+              },
+              (txObj, error) => console.log('Query Error:', error)
+            );
+        },
+        (error) => console.log('Transaction Error:', error));
+      }
+    } else  return Alert.alert('Ошибка','Заполните все поля.')
   };  
   const authorized = () => {
     return (navigation.navigate('Register'))

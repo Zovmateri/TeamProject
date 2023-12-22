@@ -66,70 +66,73 @@ export default function App({navigation}) {
     return buf.map(() => Math.floor(Isaac.random() * 256));
   });
   const registerUser = async () => {
-    let hashedPassword;
-    let salt;
-  
-    try {
-      if (!(await IsLoginUnique())) {
-        Alert.alert('Ошибка', 'Такой логин уже существует, попробуйте опять с другим логином.');
-        return;
-      }
-  
-      if (!(await IsEmailUnique())) {
-        Alert.alert('Ошибка', 'У данной электронной почты уже существует учетная запись.');
-        return;
-      }
-  
-      if (password !== null && password !== undefined) {
-        salt = bcrypt.genSaltSync(10);
-        hashedPassword = bcrypt.hashSync(password, salt);
-        console.log('found hash', hashedPassword);
-      }
-  
-      await new Promise((resolve, reject) => {
-        database.transaction((tx) => {
-          console.log('first query');
-          tx.executeSql(
-            'insert into [Пользователь] ([Имя],[Фамилия],[режим Веган],[Статус]) values (?,?,0,0);',
-            [name, surname],
-            (txObj, resultSet) => {
-              // Set the ID and resolve the promise
-              console.log('id is:', resultSet.insertId);
-              setID(resultSet.insertId);
-              resolve();
-            },
-            (txObj, error) => reject(error)
-          );
+    if(login !== null && password !== null && login !== undefined && password !== undefined && name !== undefined && surname !== undefined && email !== undefined && name !== null && surname !== null && email !== null) {
+      let hashedPassword;
+      let salt;
+    
+      try {
+        if (!(await IsLoginUnique())) {
+          Alert.alert('Ошибка', 'Такой логин уже существует, попробуйте опять с другим логином.');
+          return;
+        }
+    
+        if (!(await IsEmailUnique())) {
+          Alert.alert('Ошибка', 'У данной электронной почты уже существует учетная запись.');
+          return;
+        }
+    
+        if (password !== null && password !== undefined) {
+          salt = bcrypt.genSaltSync(10);
+          hashedPassword = bcrypt.hashSync(password, salt);
+          console.log('found hash', hashedPassword);
+        }
+    
+        await new Promise((resolve, reject) => {
+          database.transaction((tx) => {
+            console.log('first query');
+            tx.executeSql(
+              'insert into [Пользователь] ([Имя],[Фамилия],[режим Веган],[Статус]) values (?,?,0,0);',
+              [name, surname],
+              (txObj, resultSet) => {
+                // Set the ID and resolve the promise
+                console.log('id is:', resultSet.insertId);
+                setID(resultSet.insertId);
+                resolve();
+              },
+              (txObj, error) => reject(error)
+            );
+          });
         });
-      });
-  
-      // Callback function to execute the second query
-      await new Promise((resolve, reject) => {
-        console.log('repeat first id:', id);
-        console.log('second query');
-        database.transaction((tx) => {
-          console.log('starting second queue now:');
-          console.log(id, login, email, registrationDate, hashedPassword);
-          tx.executeSql(
-            'insert into [Личные данные] ([ID Пользователя],[Логин],[Электронная почта],[Дата регистрации],[Тип владельца данных],[Хэш пароля]) values (?,?,?,?,0,?)',
-            [id, login, email, registrationDate, hashedPassword],
-            (txObj, secondResultSet) => {
-              console.log('second id is:', secondResultSet.insertId);
-              console.log('success!!!!');
-              navigation.navigate('Login')
-              resolve();
-            },
-            (txObj, secondError) => {
-              console.error('Error in second query:', secondError);
-              reject(secondError);
-            }
-          );
+    
+        // Callback function to execute the second query
+        await new Promise((resolve, reject) => {
+          console.log('repeat first id:', id);
+          console.log('second query');
+          database.transaction((tx) => {
+            console.log('starting second queue now:');
+            console.log(id, login, email, registrationDate, hashedPassword);
+            tx.executeSql(
+              'insert into [Личные данные] ([ID Пользователя],[Логин],[Электронная почта],[Дата регистрации],[Тип владельца данных],[Хэш пароля]) values (?,?,?,?,0,?)',
+              [id, login, email, registrationDate, hashedPassword],
+              (txObj, secondResultSet) => {
+                console.log('second id is:', secondResultSet.insertId);
+                console.log('success!!!!');
+                navigation.navigate('Login')
+                resolve();
+              },
+              (txObj, secondError) => {
+                console.error('Error in second query:', secondError);
+                reject(secondError);
+              }
+            );
+          });
         });
-      });
-      console.log('the end');
-    } catch (error) {
-      console.error('Error during registration:', error); 
-    }
+        console.log('the end');
+      } catch (error) {
+        console.error('Error during registration:', error); 
+      }
+    } else return Alert.alert('Ошибка','Заполните все поля.')
+    
   };
   const authorized = () => {
     return (navigation.navigate('Login'))
