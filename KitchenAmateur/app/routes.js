@@ -64,7 +64,7 @@ export const MyTabs = () => {
                                 require('./assets/pics/navIcons/RegistrGreen.png') : 
                                 require('./assets/pics/navIcons/RegistrOrange.png')
                             }
-                            style={{ width: 34, height: 34}}
+                            style={{ width: 45, height: 45}}
                           />
                         ),
                         
@@ -162,7 +162,7 @@ export const MyTabs = () => {
                                 require('./assets/pics/navIcons/allergenGreen.png') : 
                                 require('./assets/pics/navIcons/allergenOrange.png')
                             }
-                            style={{ width: 34, height: 34}}
+                            style={{ width: 45, height: 45}}
                           />
                         ),
                         
