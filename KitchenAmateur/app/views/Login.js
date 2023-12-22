@@ -89,7 +89,7 @@ export default function App({navigation}) {
         <UserAuth login={login} setLogin={setLogin} password={password} setPassword={setPassword} authUser={loginUser} Checked={Checked} setChecked={setChecked} nav={authorized}/>
         {loading && (
           <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#0000ff" />
+            <ActivityIndicator size="large" color="#00bb03" />
             <Text style={styles.loadingText}>Loading: {loadingProgress}%</Text>
           </View>
         )}
